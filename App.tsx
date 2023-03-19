@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage';
 import NewDevicePage from './pages/NewDevice';
 import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
+import WifiSearch from './pages/WifiSearch';
 
 const Stack = createStackNavigator();
 
@@ -20,6 +21,7 @@ export default function App() {
         <Stack.Screen name="New Device" component={NewDevicePage} />
         <Stack.Screen name="Register" component={RegisterPage} />
         <Stack.Screen name="Profile" component={ProfilePage} />
+        <Stack.Screen name="WifiSearch" component={WifiSearch} />
 
       </Stack.Navigator>
     </NavigationContainer>

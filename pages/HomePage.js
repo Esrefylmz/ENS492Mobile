@@ -4,7 +4,7 @@ import React, { useState } from "react";
 function HomePage({ navigation }) {
   const goNewDevice = () => {
     console.log('Configure a new device button pressed');
-    navigation.navigate('Profile');
+    navigation.navigate('WifiSearch');
   }
 
   const goProfile = () => {
