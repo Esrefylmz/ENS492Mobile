@@ -1,12 +1,19 @@
-import { Text } from "react-native";
+import { Text, View } from "react-native";
+import BuildingList from "./buildingList";
 
 const BuildingItem = ({item}, handleRemoveBuilding, handleToggleBuildingStatus) => {
     console.log('Remove', handleRemoveBuilding);
     console.log('Toggle', handleToggleBuildingStatus);
     return (
-        <Text>
-            {'${item.name}'}
-        </Text>
+        <View>
+            <Text>
+                {item.name}
+                {"             "}
+                {item.buildingId}
+                {"             "}
+                {item.companyId}
+            </Text>
+        </View>
     )
 }
 

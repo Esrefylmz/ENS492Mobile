@@ -1,4 +1,4 @@
-const baseUrl = 'https://159.20.88.190:7264/api/CRUD';
+const baseUrl = 'http://10.0.2.2:5063/api/CRUD';
 
 export const loadBuildings = () => {
     return fetch(baseUrl).then((response)=>response.json()).catch(function(error){

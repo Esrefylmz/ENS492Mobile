@@ -1,4 +1,4 @@
-import { Text, ActivityIndicator , FlatList} from "react-native";
+import { Text, ActivityIndicator , FlatList, View} from "react-native";
 import { useState, useEffect } from "react";
 import React from "react";
 import { loadBuildings , updateBuilding, deleteBuilding, getBuilding, createBuilding} from "../buildingServices";
@@ -28,6 +28,17 @@ const BuildingList = () => {
         });
     }
 
+    const handleFormSubmit = (building) => {
+        console.log("building to create", building);
+        createBuilding(building).then((building) => onRefresh());
+    };
+
+
+    const handleRemoveBuilding = (building) => {
+        console.log('building to remove', building);
+        deleteBuilding(building.id).then((building) => onRefresh());
+    };
+
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         refresh().then(() => {
@@ -54,14 +65,22 @@ const BuildingList = () => {
                 <>
                     {buildings.length > 0 ? (
                         <FlatList
-                            data={buildings}
-                            ItemSeparatorComponent={Divider}
-                            renderItem={(item) => BuildingItem(
-                                item,
-                                handleFormSubmit,
-                                handleToggleBuildingStatus,
-                                )}
-                        />
+                        data={buildings}
+                        renderItem={(item) => BuildingItem(
+                            item,
+                            handleFormSubmit,
+                            handleToggleBuildingStatus,
+                        )}
+                        ItemSeparatorComponent={() => (
+                            <View
+                                style={{
+                                    height: 1,
+                                    backgroundColor: "lightgray",
+                                    marginVertical: 10,
+                                }}
+                            />
+                        )}
+                    />
                     ): (
 
                         <Text>No buildings found</Text>
