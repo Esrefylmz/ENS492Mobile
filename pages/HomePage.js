@@ -1,5 +1,6 @@
 import { View, StatusBar, StyleSheet, Text, Image, TextInput, Button, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
+import BuildingList from "../Backend/buildingServicesComponent/buildingList";
 
 function HomePage({ navigation }) {
   const goNewDevice = () => {
@@ -66,6 +67,14 @@ function HomePage({ navigation }) {
               onChangeText={handleSearch}
             />
           </View>
+
+          <View>
+                       <Text>--------------------</Text>
+                         <BuildingList></BuildingList>
+                       <Text>--------------------</Text>
+
+          </View>
+
           <View style={homePageStyles.staticBoxContainer}>
             {filteredBoxes.includes("FENS0001") && (
               <TouchableOpacity style={homePageStyles.staticBox}>
