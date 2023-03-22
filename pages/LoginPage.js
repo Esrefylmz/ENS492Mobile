@@ -15,6 +15,9 @@ function LoginPage({ navigation }) {
     <>
       <StatusBar />
       <View style={styles.mainContainer}>
+      <View style={styles.headerContainer}>
+          <Header headerText={"NEFEX"} />
+      </View>
         <View style={styles.bodyContainer}>
           <Header headerText={"Company Login"} />
           <Input placeholder={"Email"} />
@@ -44,6 +47,14 @@ const styles = StyleSheet.create({
   },
   bodyContainer: {
     height: 500,
+    borderRadius: 15,
+    margin: 10,
+    flexDirection: "column",
+    backgroundColor: "#495579",
+    alignItems: "stretch",
+  },
+  headerContainer: {
+    height: 100,
     borderRadius: 15,
     margin: 10,
     flexDirection: "column",
