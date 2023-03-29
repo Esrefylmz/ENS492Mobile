@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, PermissionsAndroid } from 'react-native';
+import { View, Text, Linking, TouchableOpacity, PermissionsAndroid, StyleSheet } from 'react-native';
 import WifiManager from 'react-native-wifi-reborn';
 
 async function requestLocationPermission() {
@@ -28,6 +28,16 @@ async function requestLocationPermission() {
   }
 }
 
+async function connectToWifi(ssid) {
+  try {
+    const isConnected = await WifiManager.connectToProtectedSSID(ssid, '', false);
+    console.log('Connected to network:', ssid);
+  } catch (error) {
+    console.log('Error connecting to network:', ssid, error);
+  }
+}
+
+
 function WifiSearch() {
   const [networks, setNetworks] = React.useState([]);
 
@@ -44,14 +54,84 @@ function WifiSearch() {
   };
 
   return (
-    <View>
-      <Text>Available networks:</Text>
+    <><View style={homePageStyles.bodyContainer}>
+      <Text style={homePageStyles.bodyText}>Available networks</Text>
       {networks.map((network, index) => (
-        <Text key={index}>{network.SSID}</Text>
-      ))}
-      <Button title="Scan networks" onPress={scanNetworks} />
-    </View>
+      <View style={homePageStyles.networkContainer} key={index}>
+        <Text style={homePageStyles.wifiText}>- {network.SSID}</Text>
+        <TouchableOpacity style={homePageStyles.connectButton} onPress={() => connectToWifi(network.SSID)}>
+          <Text style={homePageStyles.connectButtonText}>Connect</Text>
+        </TouchableOpacity>
+      </View>
+    ))}
+    </View><View style={homePageStyles.buttonContainer}>
+        <TouchableOpacity style={homePageStyles.button} onPress={scanNetworks}>
+          <Text style={homePageStyles.buttonText}>Scan Networks</Text>
+        </TouchableOpacity>
+      </View></>
   );
 }
 
 export default WifiSearch;
+
+const homePageStyles = StyleSheet.create({
+  bodyContainer: {
+    flex: 1,
+    flexDirection: "column",
+    backgroundColor: "white",
+  },
+  bodyText: { 
+    fontSize: 40,
+    lineHeight: 45,
+    fontWeight: "bold",
+    letterSpacing: 0.3,
+    color: "#495579",
+  },
+  wifiText: { 
+    fontSize: 20,
+    lineHeight: 45,
+    color: "#495579",
+    marginLeft: 10,
+  },
+  networkContainer:{
+    flex: 1,
+    flexDirection: "row",
+    backgroundColor: "white",
+    justifyContent: "space-between",
+  },
+  connectButton: {
+    backgroundColor: '#495579',
+    borderRadius: 10,
+    padding: 8,
+    width: 70,
+    marginBottom: 272,
+    marginTop: 6,
+  },
+  connectButtonText:{
+    color: 'white',
+    fontSize: 14,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  buttonContainer: {
+    flex: 1,
+    flexDirection: "column",
+    backgroundColor: "white",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  button: {
+    backgroundColor: '#495579',
+    borderRadius: 50,
+    padding: 20,
+    marginVertical: 10,
+    width: 350,
+    marginBottom: 50,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 22,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+});
