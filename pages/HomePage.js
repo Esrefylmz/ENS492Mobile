@@ -1,4 +1,4 @@
-import { View, StatusBar, StyleSheet, Text, Image, TextInput, Button, TouchableOpacity } from "react-native";
+import { View, StatusBar, StyleSheet, Text, Image, TextInput, ScrollView, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import BuildingList from "../Backend/buildingServicesComponent/buildingList";
 
@@ -19,11 +19,11 @@ function HomePage({ navigation }) {
   }
 
   const [searchText, setSearchText] = useState("");
-  const [filteredBoxes, setFilteredBoxes] = useState(["FENS0001", "FENS0002", "FENS0003", "FASS0001"]);
+  const [filteredBoxes, setFilteredBoxes] = useState(["FENS0001", "FASS0001", "FASS0002", "FASS0003", "FASS0004",]);
 
   const handleSearch = (text) => {
     setSearchText(text);
-    const filtered = ["FENS0001", "FENS0002", "FENS0003", "FASS0001"].filter((box) =>
+    const filtered = ["FENS0001", "FASS0001", "FASS0002", "FASS0003", "FASS0004"].filter((box) =>
       box.toLowerCase().includes(text.toLowerCase())
     );
     setFilteredBoxes(filtered);
@@ -32,73 +32,80 @@ function HomePage({ navigation }) {
   return (
     <>
       <StatusBar style="dark"/>
-      <View style={homePageStyles.bodyContainer}>
-        <View style={homePageStyles.appBar}>
-          <View style={homePageStyles.iconPosition}>
-          <TouchableOpacity onPress={goProfile}>
-            <Image
-              style={homePageStyles.icon}
-              source={require("../assets/icons/profile-user.png")}
-            />
+      <ScrollView>
+        <View style={homePageStyles.bodyContainer}>
+          <View style={homePageStyles.appBar}>
+            <View style={homePageStyles.iconPosition}>
+            <TouchableOpacity onPress={goProfile}>
+              <Image
+                style={homePageStyles.icon}
+                source={require("../assets/icons/profile-user.png")}
+              />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={goLogin}>
+              <Image
+                style={homePageStyles.icon}
+                source={require("../assets/icons/logout.png")}
+              />
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text style={homePageStyles.appBarText}>MY DEVICES</Text>
+            </View>
+            <View style={{ width: 25 }}/>
+          </View>
+          <View style={homePageStyles.configureButton}>
+          <TouchableOpacity style={homePageStyles.button} onPress={goNewDevice}>
+              <Text style={homePageStyles.buttonText}>Configure a new device</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={goLogin}>
-            <Image
-              style={homePageStyles.icon}
-              source={require("../assets/icons/logout.png")}
-            />
-            </TouchableOpacity>
           </View>
-          <View>
-            <Text style={homePageStyles.appBarText}>MY DEVICES</Text>
-          </View>
-          <View style={{ width: 25 }}/>
-        </View>
-        <View style={homePageStyles.configureButton}>
-        <TouchableOpacity style={homePageStyles.button} onPress={goNewDevice}>
-            <Text style={homePageStyles.buttonText}>Configure a new device</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={homePageStyles.homePageBody}>
-        <View style={homePageStyles.searchBoxContainer}>
-            <TextInput
-              style={homePageStyles.searchBox}
-              placeholder="Search"
-              value={searchText}
-              onChangeText={handleSearch}
-            />
-          </View>
+          <View style={homePageStyles.homePageBody}>
+          <View style={homePageStyles.searchBoxContainer}>
+              <TextInput
+                style={homePageStyles.searchBox}
+                placeholder="Search"
+                value={searchText}
+                onChangeText={handleSearch}
+              />
+            </View>
 
-          <View>
-                       <Text>--------------------</Text>
-                         <BuildingList></BuildingList>
-                       <Text>--------------------</Text>
+            <View>
+              <Text>--------------------</Text>
+              <BuildingList />
+              <Text>--------------------</Text>
+            </View>
 
-          </View>
 
-          <View style={homePageStyles.staticBoxContainer}>
-            {filteredBoxes.includes("FENS0001") && (
-              <TouchableOpacity style={homePageStyles.staticBox}>
-                <Text style={homePageStyles.staticBoxText}>FENS0001</Text>
-              </TouchableOpacity>
-            )}
-            {filteredBoxes.includes("FENS0002") && (
-              <TouchableOpacity style={homePageStyles.staticBox}>
-                <Text style={homePageStyles.staticBoxText}>FENS0002</Text>
-              </TouchableOpacity>
-            )}
-            {filteredBoxes.includes("FENS0003") && (
-              <TouchableOpacity style={homePageStyles.staticBox}>
-                <Text style={homePageStyles.staticBoxText}>FENS0003</Text>
-              </TouchableOpacity>
-            )}
-            {filteredBoxes.includes("FASS0001") && (
-              <TouchableOpacity style={homePageStyles.staticBox}>
-                <Text style={homePageStyles.staticBoxText}>FASS0001</Text>
-              </TouchableOpacity>
-            )}
+            <View style={homePageStyles.staticBoxContainer}>
+              {filteredBoxes.includes("FENS0001") && (
+                <TouchableOpacity style={homePageStyles.staticBox}>
+                  <Text style={homePageStyles.staticBoxText}>FENS0001</Text>
+                </TouchableOpacity>
+              )}
+              {filteredBoxes.includes("FASS0001") && (
+                <TouchableOpacity style={homePageStyles.staticBox}>
+                  <Text style={homePageStyles.staticBoxText}>FASS0001</Text>
+                </TouchableOpacity>
+              )}
+              {filteredBoxes.includes("FASS0002") && (
+                <TouchableOpacity style={homePageStyles.staticBox}>
+                  <Text style={homePageStyles.staticBoxText}>FASS0002</Text>
+                </TouchableOpacity>
+              )}
+              {filteredBoxes.includes("FASS0003") && (
+                <TouchableOpacity style={homePageStyles.staticBox}>
+                  <Text style={homePageStyles.staticBoxText}>FASS0003</Text>
+                </TouchableOpacity>
+              )}
+              {filteredBoxes.includes("FASS0004") && (
+                <TouchableOpacity style={homePageStyles.staticBox}>
+                  <Text style={homePageStyles.staticBoxText}>FASS0004</Text>
+                </TouchableOpacity>
+              )}
+            </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
     </>
   );
 }
