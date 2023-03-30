@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, PermissionsAndroid, StyleSheet } from 'react-native';
 import WifiManager from 'react-native-wifi-reborn';
 
@@ -29,7 +29,14 @@ async function requestLocationPermission() {
 }
 
 function WifiSearch({navigation}) {
-  const [networks, setNetworks] = React.useState([]);
+  const [networks, setNetworks] = useState([]);
+  const [currentWifi, setCurrentWifi] = useState(null);
+
+  useEffect(() => {
+    WifiManager.getCurrentWifiSSID()
+      .then(ssid => setCurrentWifi(ssid))
+      .catch(error => console.log('Error getting current wifi:', error));
+  }, []);
 
   const scanNetworks = async () => {
     const hasLocationPermission = await requestLocationPermission();
@@ -56,27 +63,47 @@ function WifiSearch({navigation}) {
   }
   
   return (
-    <><View style={homePageStyles.bodyContainer}>
-      <Text style={homePageStyles.bodyText}>Available networks</Text>
-      {networks.map((network, index) => (
-      <View style={homePageStyles.networkContainer} key={index}>
-        <Text style={homePageStyles.wifiText}>   {network.SSID}</Text>
-        <TouchableOpacity style={homePageStyles.connectButton} onPress={() => connectToWifi(network.SSID)}>
-          <Text style={homePageStyles.connectButtonText}>Connect</Text>
-        </TouchableOpacity>
+    <>
+      {currentWifi ? (
+        <View style={homePageStyles.currentWifiContainer}>
+          <Text style={homePageStyles.currentWifiText}>Currently connected: {currentWifi}</Text>
+        </View>
+      ) : (
+        <View style={homePageStyles.currentWifiContainer}>
+          <Text style={homePageStyles.currentWifiText}>Not connected to any WiFi networks</Text>
+        </View>
+      )}
+      <View style={homePageStyles.bodyContainer}>
+        <Text style={homePageStyles.bodyText}>Available networks</Text>
+        {networks.map((network, index) => (
+          <View style={homePageStyles.networkContainer} key={index}>
+            <Text style={homePageStyles.wifiText}>   {network.SSID}</Text>
+            <TouchableOpacity style={homePageStyles.connectButton} onPress={() => connectToWifi(network.SSID)}>
+              <Text style={homePageStyles.connectButtonText}>Connect</Text>
+            </TouchableOpacity>
+          </View>
+        ))}
       </View>
-    ))}
-    </View><View style={homePageStyles.buttonContainer}>
+      <View style={homePageStyles.buttonContainer}>
         <TouchableOpacity style={homePageStyles.button} onPress={scanNetworks}>
           <Text style={homePageStyles.buttonText}>Scan Networks</Text>
         </TouchableOpacity>
-      </View></>
+      </View>
+    </>
   );
 }
 
 export default WifiSearch;
 
 const homePageStyles = StyleSheet.create({
+  currentWifiContainer: {
+    backgroundColor: '#495579',
+    padding: 10,
+  },
+  currentWifiText: {
+    color: 'white',
+    fontSize: 16,
+  },
   bodyContainer: {
     flex: 1,
     flexDirection: "column",
@@ -88,6 +115,7 @@ const homePageStyles = StyleSheet.create({
     fontWeight: "bold",
     letterSpacing: 0.3,
     color: "#495579",
+    marginTop: 10,
   },
   wifiText: { 
     fontSize: 20,
@@ -106,7 +134,7 @@ const homePageStyles = StyleSheet.create({
     borderRadius: 10,
     padding: 8,
     width: 70,
-    marginBottom: 272,
+    marginBottom: 242,
     marginTop: 6,
   },
   connectButtonText:{
