@@ -8,7 +8,6 @@ const LocationSelectionScreen = () => {
   const [buildingDropdownOpen, setBuildingDropdownOpen] = useState(false);
   const [roomDropdownOpen, setRoomDropdownOpen] = useState(false);
 
-
   const navigation = useNavigation();
   
   return (
@@ -27,11 +26,11 @@ const LocationSelectionScreen = () => {
         <TextInput style={styles.textInput} />
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.goBack()}>
-          <Text style={styles.buttonText}>Cancel</Text>
-        </TouchableOpacity>
         <TouchableOpacity style={styles.doneButton}>
           <Text style={styles.buttonText}>Done</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.goBack()}>
+          <Text style={styles.buttonText}>Cancel</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -41,14 +40,14 @@ const LocationSelectionScreen = () => {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: 'white',
       paddingHorizontal: 20,
       paddingVertical: 40,
     },
     title: {
-      fontSize: 24,
+      fontSize: 40,
       fontWeight: 'bold',
       marginBottom: 20,
+      color: '#495579',
     },
     inputContainer: {
       marginBottom: 20,
@@ -57,32 +56,43 @@ const styles = StyleSheet.create({
       fontSize: 16,
       fontWeight: 'bold',
       marginBottom: 5,
+      color: '#495579',
     },
     textInput: {
       borderWidth: 1,
-      borderColor: 'gray',
+      borderColor: '#495579',
       borderRadius: 5,
       padding: 10,
+      backgroundColor: 'white',
     },
     buttonContainer: {
-      flexDirection: 'row',
+      position: 'absolute',
+      bottom: 10,
+      left: 0,
+      right: 0,
+      paddingVertical: 60,
+      paddingHorizontal: 20,
+      flexDirection: 'column',
+      alignItems: 'stretch',
       justifyContent: 'flex-end',
-    },
+    },    
     cancelButton: {
       backgroundColor: 'red',
       padding: 10,
       borderRadius: 5,
-      marginRight: 10,
+      marginTop: 25,
     },
     doneButton: {
-      backgroundColor: 'green',
+      backgroundColor: '#495579',
       padding: 10,
       borderRadius: 5,
     },
     buttonText: {
+      fontSize: 24,
       color: 'white',
       fontWeight: 'bold',
+      textAlign: 'center',
     },
   });
   
-  export default LocationSelectionScreen
+export default LocationSelectionScreen;
