@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
       justifyContent: 'flex-end',
     },    
     cancelButton: {
-      backgroundColor: 'red',
+      backgroundColor: '#B91c17',
       padding: 10,
       borderRadius: 5,
       marginTop: 25,

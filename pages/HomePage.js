@@ -134,7 +134,7 @@ const homePageStyles = StyleSheet.create({
     fontWeight: "bold",
     letterSpacing: 0.3,
     color: "#263159",
-    marginLeft: -120,
+    marginLeft: -100,
   },  
   button: {
     backgroundColor: '#495579',
