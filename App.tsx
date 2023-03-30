@@ -9,6 +9,7 @@ import NewDevicePage from './pages/NewDevice';
 import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
 import WifiSearch from './pages/WifiSearch';
+import ResetPassword from './pages/ResetPassword';
 
 const Stack = createStackNavigator();
 
@@ -22,6 +23,8 @@ export default function App() {
         <Stack.Screen name="Register" component={RegisterPage} />
         <Stack.Screen name="Profile" component={ProfilePage} />
         <Stack.Screen name="WifiSearch" component={WifiSearch} />
+        <Stack.Screen name="Reset Password" component={ResetPassword} />
+
 
       </Stack.Navigator>
     </NavigationContainer>
