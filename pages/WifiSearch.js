@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Linking, TouchableOpacity, PermissionsAndroid, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, PermissionsAndroid, StyleSheet } from 'react-native';
 import WifiManager from 'react-native-wifi-reborn';
 
 async function requestLocationPermission() {
@@ -16,29 +16,19 @@ async function requestLocationPermission() {
       },
     );
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      console.log('Location permission approved3');
+      console.log('Location permission approved');
       return true;
     } else {
-      console.log('Location permission denied34');
+      console.log('Location permission denied');
       return false;
     }
   } catch (error) {
-    console.log('Error requesting location permission345:', error);
+    console.log('Error requesting location permission:', error);
     return false;
   }
 }
 
-async function connectToWifi(ssid) {
-  try {
-    const isConnected = await WifiManager.connectToProtectedSSID(ssid, '', false);
-    console.log('Connected to network:', ssid);
-  } catch (error) {
-    console.log('Error connecting to network:', ssid, error);
-  }
-}
-
-
-function WifiSearch() {
+function WifiSearch({navigation}) {
   const [networks, setNetworks] = React.useState([]);
 
   const scanNetworks = async () => {
@@ -53,6 +43,18 @@ function WifiSearch() {
     }
   };
 
+  async function connectToWifi(ssid) {
+    try {
+      const isConnected = await WifiManager.connectToProtectedSSID(ssid, '', false);
+      console.log('Connected to network:', ssid);
+      navigation.navigate('New Device');
+      console.log('Going to New Device page');
+  
+    } catch (error) {
+      console.log('Error connecting to network:', ssid, error);
+    }
+  }
+  
   return (
     <><View style={homePageStyles.bodyContainer}>
       <Text style={homePageStyles.bodyText}>Available networks</Text>

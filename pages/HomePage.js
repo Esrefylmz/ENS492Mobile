@@ -69,11 +69,11 @@ function HomePage({ navigation }) {
               />
             </View>
 
-            <View>
+            {/* <View>
               <Text>--------------------</Text>
               <BuildingList />
               <Text>--------------------</Text>
-            </View>
+            </View> */}
 
 
             <View style={homePageStyles.staticBoxContainer}>
