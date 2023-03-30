@@ -69,8 +69,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 50,
     padding: 20,
+    marginTop: 10,
     marginVertical: 5,
-    width: 370,
+    width: 350,
     alignItems: 'center',
   },
   buttonText: {

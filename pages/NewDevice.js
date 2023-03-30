@@ -29,7 +29,7 @@ const LocationSelectionScreen = () => {
         <TouchableOpacity style={styles.doneButton}>
           <Text style={styles.buttonText}>Done</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.goBack()}>
+        <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.navigate("Home")}>
           <Text style={styles.buttonText}>Cancel</Text>
         </TouchableOpacity>
       </View>

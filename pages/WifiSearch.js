@@ -60,7 +60,7 @@ function WifiSearch({navigation}) {
       <Text style={homePageStyles.bodyText}>Available networks</Text>
       {networks.map((network, index) => (
       <View style={homePageStyles.networkContainer} key={index}>
-        <Text style={homePageStyles.wifiText}>- {network.SSID}</Text>
+        <Text style={homePageStyles.wifiText}>   {network.SSID}</Text>
         <TouchableOpacity style={homePageStyles.connectButton} onPress={() => connectToWifi(network.SSID)}>
           <Text style={homePageStyles.connectButtonText}>Connect</Text>
         </TouchableOpacity>
