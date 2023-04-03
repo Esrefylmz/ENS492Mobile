@@ -36,7 +36,7 @@ function WifiSearch({navigation}) {
     WifiManager.getCurrentWifiSSID()
       .then(ssid => setCurrentWifi(ssid))
       .catch(error => console.log('Error getting current wifi:', error));
-  }, []);git
+  }, []);
 
   const scanNetworks = async () => {
     const hasLocationPermission = await requestLocationPermission();
