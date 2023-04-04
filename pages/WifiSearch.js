@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, PermissionsAndroid, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, PermissionsAndroid, StyleSheet, ScrollView } from 'react-native';
 import WifiManager from 'react-native-wifi-reborn';
 
 async function requestLocationPermission() {
@@ -73,17 +73,81 @@ function WifiSearch({navigation}) {
           <Text style={homePageStyles.currentWifiText}>Not connected to any WiFi networks</Text>
         </View>
       )}
+      
       <View style={homePageStyles.bodyContainer}>
         <Text style={homePageStyles.bodyText}>Available networks</Text>
+        <ScrollView>
         {networks.map((network, index) => (
           <View style={homePageStyles.networkContainer} key={index}>
-            <Text style={homePageStyles.wifiText}>   {network.SSID}</Text>
+            <Text style={homePageStyles.wifiText}>  {network.SSID.length > 20 ? `${network.SSID.slice(0, 20)}...` : network.SSID}</Text>
             <TouchableOpacity style={homePageStyles.connectButton} onPress={() => connectToWifi(network.SSID)}>
               <Text style={homePageStyles.connectButtonText}>Connect</Text>
             </TouchableOpacity>
           </View>
         ))}
+        <View style={homePageStyles.networkContainer}>
+            <Text style={homePageStyles.wifiText}>  SABANCIUNIV</Text>
+            <TouchableOpacity style={homePageStyles.connectButton}>
+              <Text style={homePageStyles.connectButtonText}>Connect</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={homePageStyles.networkContainer}>
+            <Text style={homePageStyles.wifiText}>  wdawdawdawdawdawdawdadada</Text>
+            <TouchableOpacity style={homePageStyles.connectButton}>
+              <Text style={homePageStyles.connectButtonText}>Connect</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={homePageStyles.networkContainer}>
+            <Text style={homePageStyles.wifiText}>  adas</Text>
+            <TouchableOpacity style={homePageStyles.connectButton}>
+              <Text style={homePageStyles.connectButtonText}>Connect</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={homePageStyles.networkContainer}>
+            <Text style={homePageStyles.wifiText}>  asd</Text>
+            <TouchableOpacity style={homePageStyles.connectButton}>
+              <Text style={homePageStyles.connectButtonText}>Connect</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={homePageStyles.networkContainer}>
+            <Text style={homePageStyles.wifiText}>  123</Text>
+            <TouchableOpacity style={homePageStyles.connectButton}>
+              <Text style={homePageStyles.connectButtonText}>Connect</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={homePageStyles.networkContainer}>
+            <Text style={homePageStyles.wifiText}>  asd</Text>
+            <TouchableOpacity style={homePageStyles.connectButton}>
+              <Text style={homePageStyles.connectButtonText}>Connect</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={homePageStyles.networkContainer}>
+            <Text style={homePageStyles.wifiText}>  asd</Text>
+            <TouchableOpacity style={homePageStyles.connectButton}>
+              <Text style={homePageStyles.connectButtonText}>Connect</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={homePageStyles.networkContainer}>
+            <Text style={homePageStyles.wifiText}>  123</Text>
+            <TouchableOpacity style={homePageStyles.connectButton}>
+              <Text style={homePageStyles.connectButtonText}>Connect</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={homePageStyles.networkContainer}>
+            <Text style={homePageStyles.wifiText}>  123</Text>
+            <TouchableOpacity style={homePageStyles.connectButton}>
+              <Text style={homePageStyles.connectButtonText}>Connect</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={homePageStyles.networkContainer}>
+            <Text style={homePageStyles.wifiText}>  123</Text>
+            <TouchableOpacity style={homePageStyles.connectButton}>
+              <Text style={homePageStyles.connectButtonText}>Connect</Text>
+            </TouchableOpacity>
+          </View>
+          </ScrollView>
       </View>
+      
       <View style={homePageStyles.buttonContainer}>
         <TouchableOpacity style={homePageStyles.button} onPress={scanNetworks}>
           <Text style={homePageStyles.buttonText}>Scan Networks</Text>
@@ -117,25 +181,33 @@ const homePageStyles = StyleSheet.create({
     color: "#495579",
     marginTop: 10,
   },
-  wifiText: { 
+  wifiText: {
     fontSize: 20,
-    lineHeight: 45,
+    lineHeight: 30,
     color: "#495579",
     marginLeft: 10,
+    maxWidth: 200,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
+  
   networkContainer:{
     flex: 1,
     flexDirection: "row",
     backgroundColor: "white",
     justifyContent: "space-between",
+    borderBottomWidth: 1,
+    borderBottomColor: "#D3D3D3",
+    paddingVertical: 10,
+    maxHeight: 60,
+    minHeight: 60,
   },
   connectButton: {
     backgroundColor: '#495579',
     borderRadius: 10,
     padding: 8,
     width: 70,
-    marginBottom: 242,
-    marginTop: 6,
+    marginRight: 10
   },
   connectButtonText:{
     color: 'white',
