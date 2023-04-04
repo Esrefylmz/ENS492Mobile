@@ -79,7 +79,7 @@ function WifiSearch({navigation}) {
         <ScrollView>
         {networks.map((network, index) => (
           <View style={homePageStyles.networkContainer} key={index}>
-            <Text style={homePageStyles.wifiText}>  {network.SSID.length > 20 ? `${network.SSID.slice(0, 20)}...` : network.SSID}</Text>
+            <Text style={homePageStyles.wifiText}>  {network.SSID.length > 15 ? `${network.SSID.slice(0, 15)}...` : network.SSID}</Text>
             <TouchableOpacity style={homePageStyles.connectButton} onPress={() => connectToWifi(network.SSID)}>
               <Text style={homePageStyles.connectButtonText}>Connect</Text>
             </TouchableOpacity>
@@ -169,7 +169,7 @@ const homePageStyles = StyleSheet.create({
     fontSize: 16,
   },
   bodyContainer: {
-    flex: 1,
+    flex: 4,
     flexDirection: "column",
     backgroundColor: "white",
   },
@@ -190,7 +190,6 @@ const homePageStyles = StyleSheet.create({
     overflow: "hidden",
     textOverflow: "ellipsis",
   },
-  
   networkContainer:{
     flex: 1,
     flexDirection: "row",
