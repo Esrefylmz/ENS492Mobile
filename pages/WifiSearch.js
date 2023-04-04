@@ -85,66 +85,6 @@ function WifiSearch({navigation}) {
             </TouchableOpacity>
           </View>
         ))}
-        <View style={homePageStyles.networkContainer}>
-            <Text style={homePageStyles.wifiText}>  SABANCIUNIV</Text>
-            <TouchableOpacity style={homePageStyles.connectButton}>
-              <Text style={homePageStyles.connectButtonText}>Connect</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={homePageStyles.networkContainer}>
-            <Text style={homePageStyles.wifiText}>  wdawdawdawdawdawdawdadada</Text>
-            <TouchableOpacity style={homePageStyles.connectButton}>
-              <Text style={homePageStyles.connectButtonText}>Connect</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={homePageStyles.networkContainer}>
-            <Text style={homePageStyles.wifiText}>  adas</Text>
-            <TouchableOpacity style={homePageStyles.connectButton}>
-              <Text style={homePageStyles.connectButtonText}>Connect</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={homePageStyles.networkContainer}>
-            <Text style={homePageStyles.wifiText}>  asd</Text>
-            <TouchableOpacity style={homePageStyles.connectButton}>
-              <Text style={homePageStyles.connectButtonText}>Connect</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={homePageStyles.networkContainer}>
-            <Text style={homePageStyles.wifiText}>  123</Text>
-            <TouchableOpacity style={homePageStyles.connectButton}>
-              <Text style={homePageStyles.connectButtonText}>Connect</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={homePageStyles.networkContainer}>
-            <Text style={homePageStyles.wifiText}>  asd</Text>
-            <TouchableOpacity style={homePageStyles.connectButton}>
-              <Text style={homePageStyles.connectButtonText}>Connect</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={homePageStyles.networkContainer}>
-            <Text style={homePageStyles.wifiText}>  asd</Text>
-            <TouchableOpacity style={homePageStyles.connectButton}>
-              <Text style={homePageStyles.connectButtonText}>Connect</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={homePageStyles.networkContainer}>
-            <Text style={homePageStyles.wifiText}>  123</Text>
-            <TouchableOpacity style={homePageStyles.connectButton}>
-              <Text style={homePageStyles.connectButtonText}>Connect</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={homePageStyles.networkContainer}>
-            <Text style={homePageStyles.wifiText}>  123</Text>
-            <TouchableOpacity style={homePageStyles.connectButton}>
-              <Text style={homePageStyles.connectButtonText}>Connect</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={homePageStyles.networkContainer}>
-            <Text style={homePageStyles.wifiText}>  123</Text>
-            <TouchableOpacity style={homePageStyles.connectButton}>
-              <Text style={homePageStyles.connectButtonText}>Connect</Text>
-            </TouchableOpacity>
-          </View>
           </ScrollView>
       </View>
       
