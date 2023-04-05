@@ -21,13 +21,15 @@ const LocationSelectionScreen = () => {
         <Text style={styles.label}>Confirm Password</Text>
         <TextInput style={styles.textInput} />
       </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.doneButton}>
-          <Text style={styles.buttonText}>Done</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.navigate("Home")}>
-          <Text style={styles.buttonText}>Cancel</Text>
-        </TouchableOpacity>
+      <View style={styles.buttonWrapper}>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.doneButton}>
+            <Text style={styles.buttonText}>Done</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.navigate("Home")}>
+            <Text style={styles.buttonText}>Cancel</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -60,6 +62,9 @@ const styles = StyleSheet.create({
       borderRadius: 5,
       padding: 10,
       backgroundColor: 'white',
+    },
+    buttonWrapper: {
+      flex: 1,
     },
     buttonContainer: {
       position: 'absolute',
