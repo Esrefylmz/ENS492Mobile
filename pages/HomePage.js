@@ -52,8 +52,7 @@ function HomePage({ navigation }) {
   const Building = ({ building }) => {
     const onPress = () => {
       console.log(`Building ${building.name} pressed`);
-      // Navigate to building details screen
-      // navigation.navigate('BuildingDetails', { buildingId: building.id });
+      navigation.navigate('Building Detail', { building: building });
     };
     return (
       <TouchableOpacity
@@ -72,7 +71,6 @@ function HomePage({ navigation }) {
   return (
     <>
       <StatusBar style="dark"/>
-      <ScrollView>
         <View style={homePageStyles.bodyContainer}>
           <View style={homePageStyles.appBar}>
             <View style={homePageStyles.iconPosition}>
@@ -112,6 +110,7 @@ function HomePage({ navigation }) {
                   source={require("../assets/icons/search.png")}
                 />
               </View>
+              <ScrollView>
               <View style={homePageStyles.buildingsContainer}>
                 {filteredBuildings.length > 0 ? (
                   <FlatList
@@ -123,9 +122,10 @@ function HomePage({ navigation }) {
                   <Text>No buildings found</Text>
                 )}
               </View>
+              </ScrollView>
             </View>
           </View>
-        </ScrollView>
+        
       </>
       );
     }
@@ -135,7 +135,6 @@ function HomePage({ navigation }) {
         flex: 1,
         flexDirection: "column",
         alignItems: "stretch",
-        justifyContent: "center",
         backgroundColor: "#fff",
         padding: 10,
       },
@@ -169,13 +168,14 @@ function HomePage({ navigation }) {
       },
       button: {
         backgroundColor: "#495579",
-        borderRadius: 5,
+        borderRadius: 16,
         padding: 10,
       },
       buttonText: {
         color: "#fff",
-        fontSize: 22,
+        fontSize: 24,
         fontWeight: "bold",
+        letterSpacing: 0.3,
         textAlign: "center",
       },
       homePageBody: {
@@ -211,20 +211,23 @@ function HomePage({ navigation }) {
         justifyContent: "center",
       },
       buildingRow: {
-        flexDirection: "column",
-        alignItems: "flex-start",
-        justifyContent: "flex-start",
-        padding: 10,
+        height: 60,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        paddingHorizontal: 8,
         borderWidth: 1,
         borderColor: "#495579",
-        borderRadius: 5,
-        marginBottom: 10,
+        borderRadius: 10,
+        marginBottom: 15,
       },
       buildingName: {
-        fontSize: 18,
-        fontWeight: "bold",
-        marginBottom: 5,
+        color: "#495579",
+        fontSize: 20,
+        fontWeight: "500",
+        textAlign: "center",
       },
+           
     });
     
     export default HomePage;
