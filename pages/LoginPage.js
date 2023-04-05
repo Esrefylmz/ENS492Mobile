@@ -1,8 +1,13 @@
-import { View, StyleSheet, Text, StatusBar, TouchableOpacity } from "react-native";
+import {useState} from "react";
+import { View, StyleSheet, Text, StatusBar, TouchableOpacity, TextInput } from "react-native";
 import Input from "../components/Input";
 import Header from "../components/Header";
 
 function LoginPage({ navigation }) {
+  const [company, setCompany] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const goHome = () => {
     navigation.navigate('Home');
   }
@@ -19,9 +24,8 @@ function LoginPage({ navigation }) {
           <Header headerText={"NEFEX"} />
       </View>
         <View style={styles.bodyContainer}>
-          <Header headerText={"Company Login"} />
-          <Input placeholder={"Email"} />
-          <Input placeholder={"Password"} secureTextEntry={true} />
+          <TextInput style={styles.inputText} placeholder="Email" value={email} onChangeText={setEmail} />
+          <TextInput style={styles.inputText} placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry={true} />
           <View style={styles.buttonPlace}>
             <TouchableOpacity style={styles.button} onPress={goHome}>
               <Text style={styles.buttonText}>Login</Text>
@@ -44,6 +48,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     alignItems: "stretch",
+  },
+  inputText:{
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    color: '#000000',
+    fontSize: 16,
+    marginBottom: 10,
+    marginTop: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    padding: 10,
   },
   bodyContainer: {
     height: 500,
