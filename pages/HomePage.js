@@ -63,11 +63,13 @@ function HomePage({ navigation, route }) {
 
   const handleSearch = (text) => {
     setSearchText(text);
-    const filtered = sensors.filter((sensor) =>
-      sensor.roomName.toLowerCase().includes(text.toLowerCase())
-    );
+    const filtered = sensors.filter((sensor) => {
+      const searchStr = `${sensor.buildingName} - ${sensor.roomName}`.toLowerCase();
+      return searchStr.includes(text.toLowerCase());
+    });
     setFilteredSensors(filtered);
   };
+  
 
   const Sensor = ({ sensor }) => {
     const onPress = () => {
