@@ -82,6 +82,28 @@ function HomePage({ navigation, route }) {
     sortSensors();
   }, [sensors]);
 
+  useEffect(() => {
+    if (searchText === '') {
+      const sortSensors = () => {
+        const sortedSensors = [...sensors].sort((a, b) => {
+          const buildingNameA = a.buildingName.toLowerCase();
+          const buildingNameB = b.buildingName.toLowerCase();
+          const roomNameA = a.roomName.toLowerCase();
+          const roomNameB = b.roomName.toLowerCase();
+  
+          if (buildingNameA === buildingNameB) {
+            return roomNameA.localeCompare(roomNameB);
+          }
+          return buildingNameA.localeCompare(buildingNameB);
+        });
+  
+        setFilteredSensors(sortedSensors);
+      };
+  
+      sortSensors();
+    }
+  }, [searchText]);
+  
   const Sensor = ({ sensor }) => {
     const onPress = () => {
       console.log(`Sensor ${sensor.roomName} pressed`);
