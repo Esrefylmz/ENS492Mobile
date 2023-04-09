@@ -11,10 +11,11 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { loadBuildings } from "../Backend/buildingServices";
+import { getCompanySensorsById } from "../Backend/sensorServices";
 
 function HomePage({ navigation, route }) {
-  const { data } = route.params;
-  console.log("data homepage: ", data)
+  const { user_data } = route.params;
+  console.log("data homepage: ", user_data)
   const goNewDevice = () => {
     console.log("Configure a new device button pressed");
     navigation.navigate("WifiSearch");
@@ -22,7 +23,7 @@ function HomePage({ navigation, route }) {
 
   const goProfile = () => {
     console.log("Profile icon pressed");
-    navigation.navigate("Profile", {data});
+    navigation.navigate("Profile", {user_data});
   };
 
   const goLogin = () => {
@@ -33,42 +34,59 @@ function HomePage({ navigation, route }) {
   const [searchText, setSearchText] = useState("");
   const [filteredBuildings, setFilteredBuildings] = useState([]);
   const [buildings, setBuildings] = useState([]);
+  const [filteredSensors, setFilteredSensors] = useState([]);
+  const [sensors, setSensors] = useState([]);
 
   useEffect(() => {
     const fetchBuildings = async () => {
       const data = await loadBuildings();
       setBuildings(data);
       setFilteredBuildings(data);
+      console.log("all buildings: ", data);
     };
     fetchBuildings();
   }, []);
 
+  useEffect(() => {
+    const fetchSensors = async (user_data) => {
+      console.log("HERE")
+      console.log(user_data)
+      if (user_data["companyId"]) { // Check if data and companyId are defined
+        const sensors = await getCompanySensorsById(user_data["companyId"]);
+        console.log("sensors", sensors);
+        setSensors(sensors);
+        setFilteredSensors(sensors);
+      }
+    };
+    fetchSensors(user_data);
+  }, [user_data]);
+
   const handleSearch = (text) => {
     setSearchText(text);
-    const filtered = buildings.filter((building) =>
-      building.name.toLowerCase().includes(text.toLowerCase())
+    const filtered = sensors.filter((sensor) =>
+      sensor.roomName.toLowerCase().includes(text.toLowerCase())
     );
-    setFilteredBuildings(filtered);
+    setFilteredSensors(filtered);
   };
 
-  const Building = ({ building }) => {
+  const Sensor = ({ sensor }) => {
     const onPress = () => {
-      console.log(`Building ${building.name} pressed`);
-      navigation.navigate('Building Detail', { building: building });
+      console.log(`Sensor ${sensor.roomName} pressed`);
+      navigation.navigate('Sensor Detail', { sensor: sensor });
     };
     return (
       <TouchableOpacity
         style={homePageStyles.buildingRow}
         onPress={onPress}
-        key={building.id}
+        key={sensor.softId}
       >
-        <Text style={homePageStyles.buildingName}>{building.name}</Text>
-        <Text>{building.address}</Text>
+        <Text style={homePageStyles.buildingName}>{sensor.roomName}</Text>
+        <Text>{sensor.locationInfo}</Text>
       </TouchableOpacity>
     );
   };
 
-  const renderBuilding = ({ item }) => <Building building={item} />;
+  const renderSensor = ({ item }) => <Sensor sensor={item} />;
 
   return (
     <>
@@ -95,7 +113,7 @@ function HomePage({ navigation, route }) {
             </View>
           </View>
           <View style={homePageStyles.configureButton}>
-          {data.userType === 'admin' && (
+          {user_data.userType === 'admin' && (
                 <TouchableOpacity style={homePageStyles.button} onPress={goNewDevice}>
                   <Text style={homePageStyles.buttonText}>Configure a new device</Text>
                 </TouchableOpacity>
@@ -116,16 +134,17 @@ function HomePage({ navigation, route }) {
               </View>
               <ScrollView>
               <View style={homePageStyles.buildingsContainer}>
-                {filteredBuildings.length > 0 ? (
+                {filteredSensors.length > 0 ? (
                   <FlatList
-                    data={filteredBuildings}
-                    renderItem={renderBuilding}
-                    keyExtractor={(building) => building.id}
+                    data={filteredSensors}
+                    renderItem={renderSensor}
+                    keyExtractor={(sensor) => sensor.softId}
                   />
                 ) : (
-                  <Text>No buildings found</Text>
+                  <Text>No sensors found</Text>
                 )}
               </View>
+
               </ScrollView>
             </View>
           </View>

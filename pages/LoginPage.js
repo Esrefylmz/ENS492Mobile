@@ -21,9 +21,9 @@ function LoginPage({ navigation }) {
       })
     })
     .then(response => response.json())
-    .then(data => {
-      if (data && !data.errors) {
-        if(data["userType"] == "pending"){
+    .then(user_data => {
+      if (user_data && !user_data.errors) {
+        if(user_data["userType"] == "pending"){
           Alert.alert(
             'Pending status',
             'Your registration is not approved yet!',
@@ -38,14 +38,14 @@ function LoginPage({ navigation }) {
           );
         }
         else{
-          console.log("data: ", data )
+          console.log("data: ", user_data )
           Alert.alert(
             'Login successful',
             'You have successfully logged in!',
             [
               {
                 text: 'OK',
-                onPress: () => navigation.navigate('Home', {data}),
+                onPress: () => navigation.navigate('Home', {user_data}),
                 style: 'default',
               },
             ],
@@ -54,7 +54,7 @@ function LoginPage({ navigation }) {
 
         }
       } else {
-        console.log("data: ",data)
+        console.log("data: ",user_data)
         Alert.alert('Login failed', 'Unable to Login. Please try again.');
       }
     })

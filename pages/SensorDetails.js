@@ -2,16 +2,20 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 function BuildingDetails({ route }) {
-  const { building } = route.params;
+  const { sensor } = route.params;
+  console.log('Sensor Details: ', sensor)
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{building.name}</Text>
+      <Text style={styles.title}>{sensor.softId}</Text>
       <View style={styles.detailsContainer}>
-        <Text style={styles.detailsLabel}>Building ID: {building.buildingId}</Text>
+        <Text style={styles.detailsLabel}>Building : {sensor.buildingName}</Text>
       </View>
       <View style={styles.detailsContainer}>
-        <Text style={styles.detailsLabel}>Company ID: {building.companyId}</Text>
+        <Text style={styles.detailsLabel}>Room : {sensor.roomName}</Text>
+      </View>
+      <View style={styles.detailsContainer}>
+        <Text style={styles.detailsLabel}>Location : {sensor.locationInfo}</Text>
       </View>
     </View>
   );
