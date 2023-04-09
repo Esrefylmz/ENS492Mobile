@@ -12,6 +12,7 @@ const ProfileScreen = ({navigation, route}) => {
     navigation.navigate('Login');
   }
 
+
   return (
     <View style={styles.container}>
         <Text style={styles.titleText}>{user_data["username"]}</Text>

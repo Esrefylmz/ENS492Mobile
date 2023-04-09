@@ -1,10 +1,28 @@
-import React from 'react';
+import React , { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { GetDataByMacId } from "../Backend/sensorServices";
+import TimeSeriesChart from '../components/Graph';
 
 function BuildingDetails({ route }) {
   const { sensor } = route.params;
   console.log('Sensor Details: ', sensor)
+  const [SensorData, setSensorData] = useState([]);
 
+  useEffect(() => {
+    const fetchSensorData = async (sensor) => {
+      console.log("HERE")
+      console.log(sensor)
+      console.log("MOM: ",sensor["macId"])
+      if (sensor["macId"]) { 
+        const sensorData = await GetDataByMacId(sensor["macId"]);
+        setSensorData(sensorData)
+        
+      }
+    };
+    fetchSensorData(sensor);
+  }, [sensor]);
+
+  console.log("SENSOR DATA", SensorData)
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{sensor.softId}</Text>
@@ -20,6 +38,9 @@ function BuildingDetails({ route }) {
       <View style={styles.detailsContainer}>
         <Text style={styles.detailsLabel}>MACID : {sensor.macId}</Text>
       </View>
+      <View>
+      <TimeSeriesChart sensorData={SensorData} />
+    </View>
     </View>
   );
 }

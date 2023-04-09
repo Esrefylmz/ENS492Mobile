@@ -6,3 +6,12 @@ export const getCompanySensorsById = (companyId: any) => {
         throw error;
     });
 }
+
+export const GetDataByMacId = (macID: any) => {
+    const url =`http://10.0.2.2:5063/api/MonitorData/GetDataByMacId?macID=${macID}`;
+    console.log(url);
+    return fetch(url).then((response) => response.json()).catch(function(error){
+        console.log('getSensorDataError' + error.message);
+        throw error;
+    });
+}
