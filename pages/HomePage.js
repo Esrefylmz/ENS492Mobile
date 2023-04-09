@@ -12,7 +12,9 @@ import {
 import React, { useState, useEffect } from "react";
 import { loadBuildings } from "../Backend/buildingServices";
 
-function HomePage({ navigation }) {
+function HomePage({ navigation, route }) {
+  const { data } = route.params;
+  console.log("data homepage: ", data)
   const goNewDevice = () => {
     console.log("Configure a new device button pressed");
     navigation.navigate("WifiSearch");
@@ -93,9 +95,11 @@ function HomePage({ navigation }) {
             </View>
           </View>
           <View style={homePageStyles.configureButton}>
-            <TouchableOpacity style={homePageStyles.button} onPress={goNewDevice}>
-              <Text style={homePageStyles.buttonText}>Configure a new device</Text>
-            </TouchableOpacity>
+          {data.userType === 'admin' && (
+                <TouchableOpacity style={homePageStyles.button} onPress={goNewDevice}>
+                  <Text style={homePageStyles.buttonText}>Configure a new device</Text>
+                </TouchableOpacity>
+              )}
           </View>
           <View style={homePageStyles.homePageBody}>
             <View style={homePageStyles.searchBoxContainer}>
