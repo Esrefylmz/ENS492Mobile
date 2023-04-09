@@ -5,12 +5,10 @@ import {
   Text,
   Image,
   TextInput,
-  ScrollView,
   TouchableOpacity,
   FlatList,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { loadBuildings } from "../Backend/buildingServices";
 import { getCompanySensorsById } from "../Backend/sensorServices";
 
 function HomePage({ navigation, route }) {

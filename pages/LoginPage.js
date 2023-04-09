@@ -1,5 +1,5 @@
 import {useState} from "react";
-import { View, StyleSheet, Text, StatusBar, TouchableOpacity, TextInput, Alert} from "react-native";
+import { View, StyleSheet, Text, StatusBar, TouchableOpacity, TextInput} from "react-native";
 import Snackbar from 'react-native-snackbar';
 import Header from "../components/Header";
 
@@ -8,57 +8,63 @@ function LoginPage({ navigation }) {
   const [password, setPassword] = useState('');
 
   const goHome = () => {
-    // Here you can send the company, email, and password to the backend
     console.log('Email:', email, 'Password:', password);
-    
-    fetch('http://10.0.2.2:5063/api/CompanyUserAuth/LoginCompanyUser', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        mail: email,
-        password: password,
+    if (email === '' || password === '') {
+      Snackbar.show({
+        text: 'Please enter your authentication information first!',
+        backgroundColor: '#D62525',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+    }
+    else{
+      fetch('http://10.0.2.2:5063/api/CompanyUserAuth/LoginCompanyUser', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          mail: email,
+          password: password,
+        })
       })
-    })
-    .then(response => response.json())
-    .then(user_data => {
-      if (user_data && !user_data.errors) {
-        if(user_data["userType"] == "pending"){
-          Snackbar.show({
-            text: 'Pending status. Your registration is not approved yet!',
-            duration: Snackbar.LENGTH_SHORT,
-            backgroundColor: '#495579',
-          });
-        }
-        else {
+      .then(response => response.json())
+      .then(user_data => {
+        if (user_data && !user_data.errors) {
+          if(user_data["userType"] == "pending"){
+            Snackbar.show({
+              text: 'Pending status. Your registration is not approved yet!',
+              duration: Snackbar.LENGTH_SHORT,
+              backgroundColor: '#D62525',
+            });
+          }
+          else {
+            console.log("data: ", user_data)
+            Snackbar.show({
+              text: 'You have successfully logged in!',
+              duration: Snackbar.LENGTH_SHORT,
+              backgroundColor: '#495579',
+            });
+            navigation.navigate('Home', { user_data });
+          }
+        } else {
           console.log("data: ", user_data)
           Snackbar.show({
-            text: 'You have successfully logged in!',
+            text: 'You need to register first!',
             duration: Snackbar.LENGTH_SHORT,
-            backgroundColor: '#495579',
+            backgroundColor: '#D62525',
           });
-          navigation.navigate('Home', { user_data });
         }
-      } else {
-        console.log("data: ", user_data)
+      })
+      .catch(error => {
+        console.log('Error:', error);
         Snackbar.show({
-          text: 'Something went wrong!',
+          text: 'You need to register first!',
           duration: Snackbar.LENGTH_SHORT,
           backgroundColor: '#D62525',
         });
-      }
-    })
-    .catch(error => {
-      console.log('Error:', error);
-      Snackbar.show({
-        text: 'Something went wrong!',
-        duration: Snackbar.LENGTH_SHORT,
-        backgroundColor: '#D62525',
       });
-    });
+    }
   }
-  
 
   const goRegister = () => {
     navigation.navigate('Register');
