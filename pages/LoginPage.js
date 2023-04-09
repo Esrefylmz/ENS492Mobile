@@ -23,19 +23,36 @@ function LoginPage({ navigation }) {
     .then(response => response.json())
     .then(data => {
       if (data && !data.errors) {
-        console.log("data: ", data )
-        Alert.alert(
-          'Login successful',
-          'You have successfully logged in!',
-          [
-            {
-              text: 'OK',
-              onPress: () => navigation.navigate('Home', {data}),
-              style: 'default',
-            },
-          ],
-          { cancelable: false }
-        );
+        if(data["userType"] == "pending"){
+          Alert.alert(
+            'Pending status',
+            'Your registration is not approved yet!',
+            [
+              {
+                text: 'OK',
+                onPress: () => navigation.navigate('Login'),
+                style: 'default',
+              },
+            ],
+            { cancelable: false }
+          );
+        }
+        else{
+          console.log("data: ", data )
+          Alert.alert(
+            'Login successful',
+            'You have successfully logged in!',
+            [
+              {
+                text: 'OK',
+                onPress: () => navigation.navigate('Home', {data}),
+                style: 'default',
+              },
+            ],
+            { cancelable: false }
+          );
+
+        }
       } else {
         console.log("data: ",data)
         Alert.alert('Login failed', 'Unable to Login. Please try again.');
