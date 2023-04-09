@@ -17,6 +17,9 @@ function BuildingDetails({ route }) {
       <View style={styles.detailsContainer}>
         <Text style={styles.detailsLabel}>Location : {sensor.locationInfo}</Text>
       </View>
+      <View style={styles.detailsContainer}>
+        <Text style={styles.detailsLabel}>MACID : {sensor.macId}</Text>
+      </View>
     </View>
   );
 }
@@ -29,11 +32,11 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 36,
-    color: '#495579',
+    color: '#077187',
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 10,
-    borderBottomColor: "#495579",
+    borderBottomColor: "#077187",
     borderBottomWidth: 1,
   },
   detailsContainer: {

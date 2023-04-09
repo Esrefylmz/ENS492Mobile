@@ -42,7 +42,7 @@ function LoginPage({ navigation }) {
             Snackbar.show({
               text: 'You have successfully logged in!',
               duration: Snackbar.LENGTH_SHORT,
-              backgroundColor: '#495579',
+              backgroundColor: '#49B365',
             });
             navigation.navigate('Home', { user_data });
           }
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     justifyContent:"center",
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#F8F8F8',
     alignItems: "stretch",
   },
   inputText:{
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     margin: 10,
     flexDirection: "column",
-    backgroundColor: "#495579",
+    backgroundColor: "#077187",
     alignItems: "stretch",
   },
   headerContainer: {
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     margin: 10,
     flexDirection: "column",
-    backgroundColor: "#495579",
+    backgroundColor: "#077187",
     alignItems: "stretch",
   },
   buttonPlace: {

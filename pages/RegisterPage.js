@@ -65,7 +65,7 @@ function RegisterPage({ navigation }) {
           Snackbar.show({
             text: 'Registration successful',
             duration: Snackbar.LENGTH_SHORT,
-            backgroundColor: '#495579',
+            backgroundColor: '#49B365',
           });
           navigation.navigate('Login', { company })
         }
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     justifyContent: "center",
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "#F8F8F8",
   },
   button: {
     backgroundColor: 'white',
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
-    color: '#495579',
+    color: '#077187',
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   inputText:{
     backgroundColor: '#FFFFFF',
     borderRadius: 10,
-    color: '#495579',
+    color: '#077187',
     fontSize: 16,
     marginBottom: 10,
     marginTop: 10,
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     margin: 10,
     flexDirection: "column",
-    backgroundColor: "#495579",
+    backgroundColor: "#077187",
     justifyContent: "center",
     alignItems: "stretch",
   },

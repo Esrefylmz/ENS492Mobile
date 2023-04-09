@@ -101,7 +101,7 @@ export default WifiSearch;
 
 const homePageStyles = StyleSheet.create({
   currentWifiContainer: {
-    backgroundColor: '#495579',
+    backgroundColor: '#077187',
     padding: 10,
   },
   currentWifiText: {
@@ -118,13 +118,13 @@ const homePageStyles = StyleSheet.create({
     lineHeight: 45,
     fontWeight: "bold",
     letterSpacing: 0.3,
-    color: "#495579",
+    color: "#077187",
     marginTop: 10,
   },
   wifiText: {
     fontSize: 20,
     lineHeight: 30,
-    color: "#495579",
+    color: "#077187",
     marginLeft: 10,
     maxWidth: 200,
     overflow: "hidden",
@@ -142,7 +142,7 @@ const homePageStyles = StyleSheet.create({
     minHeight: 60,
   },
   connectButton: {
-    backgroundColor: '#495579',
+    backgroundColor: '#077187',
     borderRadius: 10,
     padding: 8,
     width: 70,
@@ -162,7 +162,7 @@ const homePageStyles = StyleSheet.create({
     alignItems: "center",
   },
   button: {
-    backgroundColor: '#495579',
+    backgroundColor: '#077187',
     borderRadius: 50,
     padding: 20,
     marginVertical: 10,

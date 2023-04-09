@@ -12,6 +12,12 @@ import React, { useState, useEffect } from "react";
 import { getCompanySensorsById } from "../Backend/sensorServices";
 
 function HomePage({ navigation, route }) {
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: null
+    });
+  }, [navigation]);
+
   const { user_data } = route.params;
   console.log("data homepage: ", user_data)
   const goNewDevice = () => {
@@ -163,20 +169,23 @@ function HomePage({ navigation, route }) {
       </>
       );
     }
-    
+
+    HomePage.navigationOptions = {
+      headerLeft: null,
+    };
+
     const homePageStyles = StyleSheet.create({
       bodyContainer: {
         flex: 1,
         flexDirection: "column",
         alignItems: "stretch",
-        backgroundColor: "#fff",
+        backgroundColor: "#F8F8F8",
         padding: 10,
       },
       appBar: {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        marginBottom: 10,
       },
       iconPosition: {
         flexDirection: "row",
@@ -194,14 +203,14 @@ function HomePage({ navigation, route }) {
         lineHeight: 36,
         fontWeight: "bold",
         letterSpacing: 0.2,
-        color: "#263159",
+        color: "#1D6E7F",
       },  
       configureButton: {
         marginTop: 10,
         marginBottom: 20,
       },
       button: {
-        backgroundColor: "#495579",
+        backgroundColor: "#077187",
         borderRadius: 16,
         padding: 10,
       },
@@ -221,8 +230,8 @@ function HomePage({ navigation, route }) {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        borderWidth: 2,
-        borderColor: "#495579",
+        borderWidth: 2.5,
+        borderColor: "#077187",
         borderRadius: 5,
         paddingLeft: 10,
         paddingRight: 10,
@@ -245,24 +254,25 @@ function HomePage({ navigation, route }) {
         justifyContent: "center",
       },
       buildingRow: {
+        backgroundColor: "#fff",
         height: 60,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
         paddingHorizontal: 8,
         borderWidth: 1,
-        borderColor: "#495579",
+        borderColor: "#077187",
         borderRadius: 10,
         marginBottom: 15,
       },
       buildingName: {
-        color: "#495579",
+        color: "#077187",
         fontSize: 20,
         fontWeight: "500",
         textAlign: "center",
       },
       locationName: {
-        color: "#495579",
+        color: "#077187",
         fontSize: 16,
         fontWeight: "400",
         textAlign: "center",

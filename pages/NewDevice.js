@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
       fontSize: 40,
       fontWeight: 'bold',
       marginBottom: 20,
-      color: '#495579',
+      color: '#077187',
     },
     inputContainer: {
       marginBottom: 20,
@@ -54,11 +54,11 @@ const styles = StyleSheet.create({
       fontSize: 16,
       fontWeight: 'bold',
       marginBottom: 5,
-      color: '#495579',
+      color: '#077187',
     },
     textInput: {
       borderWidth: 1,
-      borderColor: '#495579',
+      borderColor: '#077187',
       borderRadius: 5,
       padding: 10,
       backgroundColor: 'white',
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
       marginTop: 25,
     },
     doneButton: {
-      backgroundColor: '#495579',
+      backgroundColor: '#077187',
       padding: 10,
       borderRadius: 5,
     },
