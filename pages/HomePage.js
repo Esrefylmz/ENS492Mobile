@@ -32,20 +32,8 @@ function HomePage({ navigation, route }) {
   };
 
   const [searchText, setSearchText] = useState("");
-  const [filteredBuildings, setFilteredBuildings] = useState([]);
-  const [buildings, setBuildings] = useState([]);
   const [filteredSensors, setFilteredSensors] = useState([]);
   const [sensors, setSensors] = useState([]);
-
-  useEffect(() => {
-    const fetchBuildings = async () => {
-      const data = await loadBuildings();
-      setBuildings(data);
-      setFilteredBuildings(data);
-      console.log("all buildings: ", data);
-    };
-    fetchBuildings();
-  }, []);
 
   useEffect(() => {
     const fetchSensors = async (user_data) => {
@@ -70,6 +58,25 @@ function HomePage({ navigation, route }) {
     setFilteredSensors(filtered);
   };
   
+  useEffect(() => {
+    const sortSensors = () => {
+      const sortedSensors = [...sensors].sort((a, b) => {
+        const buildingNameA = a.buildingName.toLowerCase();
+        const buildingNameB = b.buildingName.toLowerCase();
+        const roomNameA = a.roomName.toLowerCase();
+        const roomNameB = b.roomName.toLowerCase();
+  
+        if (buildingNameA === buildingNameB) {
+          return roomNameA.localeCompare(roomNameB);
+        }
+        return buildingNameA.localeCompare(buildingNameB);
+      });
+  
+      setFilteredSensors(sortedSensors);
+    };
+  
+    sortSensors();
+  }, [sensors]);
 
   const Sensor = ({ sensor }) => {
     const onPress = () => {
@@ -150,6 +157,7 @@ function HomePage({ navigation, route }) {
                     )}
                   </View>
                 }
+                contentContainerStyle={{ paddingBottom: 100 }}
               />
             </View>
           </View>
