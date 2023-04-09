@@ -1,5 +1,6 @@
 import {useState} from "react";
 import { View, StyleSheet, Text, StatusBar, TouchableOpacity, TextInput, Alert} from "react-native";
+import Snackbar from 'react-native-snackbar';
 import Header from "../components/Header";
 
 function LoginPage({ navigation }) {
@@ -24,43 +25,37 @@ function LoginPage({ navigation }) {
     .then(user_data => {
       if (user_data && !user_data.errors) {
         if(user_data["userType"] == "pending"){
-          Alert.alert(
-            'Pending status',
-            'Your registration is not approved yet!',
-            [
-              {
-                text: 'OK',
-                onPress: () => navigation.navigate('Login'),
-                style: 'default',
-              },
-            ],
-            { cancelable: false }
-          );
+          Snackbar.show({
+            text: 'Pending status. Your registration is not approved yet!',
+            duration: Snackbar.LENGTH_SHORT,
+            backgroundColor: '#495579',
+          });
         }
-        else{
-          console.log("data: ", user_data )
-          Alert.alert(
-            'Login successful',
-            'You have successfully logged in!',
-            [
-              {
-                text: 'OK',
-                onPress: () => navigation.navigate('Home', {user_data}),
-                style: 'default',
-              },
-            ],
-            { cancelable: false }
-          );
-
+        else {
+          console.log("data: ", user_data)
+          Snackbar.show({
+            text: 'You have successfully logged in!',
+            duration: Snackbar.LENGTH_SHORT,
+            backgroundColor: '#495579',
+          });
+          navigation.navigate('Home', { user_data });
         }
       } else {
-        console.log("data: ",user_data)
-        Alert.alert('Login failed', 'Unable to Login. Please try again.');
+        console.log("data: ", user_data)
+        Snackbar.show({
+          text: 'Something went wrong!',
+          duration: Snackbar.LENGTH_SHORT,
+          backgroundColor: '#D62525',
+        });
       }
     })
     .catch(error => {
       console.log('Error:', error);
-      Alert.alert('Login failed', 'ERROR HAPPENED.');
+      Snackbar.show({
+        text: 'Something went wrong!',
+        duration: Snackbar.LENGTH_SHORT,
+        backgroundColor: '#D62525',
+      });
     });
   }
   
