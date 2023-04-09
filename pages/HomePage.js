@@ -22,7 +22,7 @@ function HomePage({ navigation, route }) {
 
   const goProfile = () => {
     console.log("Profile icon pressed");
-    navigation.navigate("Profile");
+    navigation.navigate("Profile", {data});
   };
 
   const goLogin = () => {

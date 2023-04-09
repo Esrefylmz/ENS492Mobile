@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-const ProfileScreen = ({navigation}) => {
+const ProfileScreen = ({navigation, route}) => {
+  const { data } = route.params;
   const handleResetPassword = () => {
     // TODO: implement reset password functionality
   };
@@ -13,7 +14,7 @@ const ProfileScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-        <Text style={styles.titleText}>YOUR ACCOUNT</Text>
+        <Text style={styles.titleText}>{data["username"]}</Text>
       <TouchableOpacity style={styles.button} onPress={handleResetPassword}>
         <Text style={styles.buttonText} onPress={() => navigation.navigate("Reset Password")}>Reset Password</Text>
       </TouchableOpacity>
