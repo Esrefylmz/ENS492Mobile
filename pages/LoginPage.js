@@ -1,16 +1,52 @@
 import {useState} from "react";
-import { View, StyleSheet, Text, StatusBar, TouchableOpacity, TextInput } from "react-native";
-import Input from "../components/Input";
+import { View, StyleSheet, Text, StatusBar, TouchableOpacity, TextInput, Alert} from "react-native";
 import Header from "../components/Header";
 
 function LoginPage({ navigation }) {
-  const [company, setCompany] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const goHome = () => {
-    navigation.navigate('Home');
+    // Here you can send the company, email, and password to the backend
+    console.log('Email:', email, 'Password:', password);
+    
+    fetch('http://10.0.2.2:5063/api/CompanyUserAuth/LoginCompanyUser', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        mail: email,
+        password: password,
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data && !data.errors) {
+        console.log("data: ", data )
+        Alert.alert(
+          'Login successful',
+          'You have successfully logged in!',
+          [
+            {
+              text: 'OK',
+              onPress: () => navigation.navigate('Home', {data}),
+              style: 'default',
+            },
+          ],
+          { cancelable: false }
+        );
+      } else {
+        console.log("data: ",data)
+        Alert.alert('Login failed', 'Unable to Login. Please try again.');
+      }
+    })
+    .catch(error => {
+      console.log('Error:', error);
+      Alert.alert('Login failed', 'ERROR HAPPENED.');
+    });
   }
+  
 
   const goRegister = () => {
     navigation.navigate('Register');

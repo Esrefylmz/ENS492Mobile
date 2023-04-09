@@ -1,4 +1,4 @@
-import { View, StyleSheet, ScrollView, StatusBar, TextInput, Text, TouchableOpacity} from "react-native";
+import { View, StyleSheet, ScrollView, StatusBar, TextInput, Text, TouchableOpacity, Alert} from "react-native";
 import React, {useState, useEffect} from "react";
 
 import Input from "../components/Input";
@@ -14,27 +14,65 @@ function RegisterPage({ navigation }) {
   const [name, setName] = useState('');
   const [domain, setDomain] = useState('');
   const [companies, setCompanies] = useState([]);
-  const [companyId, setCompanyId] = useState('');
 
   const goLogin = async () => {
     // Extract the company name from the email input
     const company = email.split('@')[1];
-
+  
     // Here you can send the company, email, and password to the backend
     console.log('Company:', company, 'Email:', email, 'Password:', password);
     await getCompanyByDomain(company).then((companies) => {
       setCompanies(companies);
       console.log('Companies', companies);
-      console.log('COMPANYID', companies.companyId);
-      setCompanyId(companies.companyId)
+      console.log('COMPANYID', companies["companyId"]); // Access the first company's companyId
+      
+      
+      fetch('http://10.0.2.2:5063/api/CompanyUserAuth/RegisterCompanyUser', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          companyId: companies["companyId"], // Pass the companyId to the request body
+          usermail: email,
+          password: password,
+          userType: "pending",
+          username: name,
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data) {
+          Alert.alert(
+            'Registration successful',
+            'You have successfully registered!',
+            [
+              {
+                text: 'OK',
+                onPress: () => navigation.navigate('Login', { company }),
+                style: 'default',
+              },
+            ],
+            { cancelable: false }
+          );
+        }
+         else {
+          
+          console.log("data: ",data)
+          Alert.alert('Registration failed', 'Unable to register. Please try again.');
+        }
+      })
+      .catch(error => {
+        console.log('Error:', error);
+        Alert.alert('Registration failed', 'ERROR HAPPENED.');
+      });
     }).catch((error) => {
-      console.log("api call error");
+      console.log("api call error", error);
+      Alert.alert('Registration failed', 'Api call error.');
     });
-
-    navigation.navigate('Login', { company });
   }
 
-  console.log("Email:", email, 'Password:', password, companyId);
+  console.log("Email:", email, 'Password:', password);
 
   return (
     <>
