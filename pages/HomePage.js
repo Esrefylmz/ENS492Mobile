@@ -80,8 +80,11 @@ function HomePage({ navigation, route }) {
         onPress={onPress}
         key={sensor.softId}
       >
-        <Text style={homePageStyles.buildingName}>{sensor.roomName}</Text>
-        <Text>{sensor.locationInfo}</Text>
+        <View>
+        <Text style={homePageStyles.buildingName}>{sensor.buildingName} - {sensor.roomName} </Text>
+        <Text style={homePageStyles.locationName}>{sensor.locationInfo}</Text>
+        </View>
+
       </TouchableOpacity>
     );
   };
@@ -132,20 +135,20 @@ function HomePage({ navigation, route }) {
                   source={require("../assets/icons/search.png")}
                 />
               </View>
-              <ScrollView>
-              <View style={homePageStyles.buildingsContainer}>
-                {filteredSensors.length > 0 ? (
-                  <FlatList
-                    data={filteredSensors}
-                    renderItem={renderSensor}
-                    keyExtractor={(sensor) => sensor.softId}
-                  />
-                ) : (
-                  <Text>No sensors found</Text>
-                )}
-              </View>
-
-              </ScrollView>
+              <FlatList
+                data={filteredSensors}
+                renderItem={renderSensor}
+                keyExtractor={(sensor) => sensor.softId}
+                ListHeaderComponent={
+                  <View style={homePageStyles.buildingsContainer}>
+                    {filteredSensors.length > 0 ? (
+                      null
+                    ) : (
+                      <Text>No sensors found</Text>
+                    )}
+                  </View>
+                }
+              />
             </View>
           </View>
         
@@ -248,6 +251,12 @@ function HomePage({ navigation, route }) {
         color: "#495579",
         fontSize: 20,
         fontWeight: "500",
+        textAlign: "center",
+      },
+      locationName: {
+        color: "#495579",
+        fontSize: 16,
+        fontWeight: "400",
         textAlign: "center",
       },
            
