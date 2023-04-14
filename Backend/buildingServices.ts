@@ -7,11 +7,17 @@ export const loadBuildings = () => {
     });
 }
 
+export const getAllBuildingsByCompanyId = (id: any) => {
+    return fetch('${baseUrl}/${id}').then((response)=>response.json()).catch(function(error){
+        console.log('getAllBuildingsByCompanyId error' + error.message);
+        throw error;
+    });
+}
 
 
-export const getBuilding = (id: any) => {
-    return fetch('${baseUrl}/${id}').then((response) => response.json()).catch(function(error){
-        console.log('getBuilding error' + error.message);
+export const getBuildingByCompanyId = (id: any) => {
+    return fetch(`http://10.0.2.2:5063/api/CRUD/GetBuildingByCompanyId?Id=${id}`).then((response) => response.json()).catch(function(error){
+        console.log('GetBuildingByCompanyId error' + error.message);
         throw error;
     });
 }

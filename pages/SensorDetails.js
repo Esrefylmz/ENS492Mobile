@@ -1,7 +1,6 @@
 import React , { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { GetDataByMacId } from "../Backend/sensorServices";
-import TimeSeriesChart from '../components/Graph';
 
 function BuildingDetails({ route }) {
   const { sensor } = route.params;
@@ -13,7 +12,7 @@ function BuildingDetails({ route }) {
       console.log("HERE")
       console.log(sensor)
       console.log("MOM: ",sensor["macId"])
-      if (sensor["macId"]) { 
+      if (sensor["macId"][2] === ":") { 
         const sensorData = await GetDataByMacId(sensor["macId"]);
         setSensorData(sensorData)
         
@@ -39,7 +38,6 @@ function BuildingDetails({ route }) {
         <Text style={styles.detailsLabel}>MACID : {sensor.macId}</Text>
       </View>
       <View>
-      <TimeSeriesChart sensorData={SensorData} />
     </View>
     </View>
   );

@@ -11,6 +11,8 @@ import ProfilePage from './pages/ProfilePage';
 import WifiSearch from './pages/WifiSearch';
 import ResetPassword from './pages/ResetPassword';
 import SensorDetails from './pages/SensorDetails';
+import BuildingDetails from './pages/BuildingsDetail';
+
 
 const Stack = createStackNavigator();
 
@@ -26,6 +28,7 @@ export default function App() {
         <Stack.Screen name="WifiSearch" component={WifiSearch} />
         <Stack.Screen name="Reset Password" component={ResetPassword} />
         <Stack.Screen name="Sensor Detail" component={SensorDetails} />
+        <Stack.Screen name="Building Detail" component={BuildingDetails} />
 
       </Stack.Navigator>
     </NavigationContainer>

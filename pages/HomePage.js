@@ -9,7 +9,8 @@ import {
   FlatList,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { getCompanySensorsById } from "../Backend/sensorServices";
+import { getCompanySensorsByCompanyId } from "../Backend/sensorServices";
+import { getBuildingByCompanyId } from "../Backend/buildingServices";
 
 function HomePage({ navigation, route }) {
   React.useLayoutEffect(() => {
@@ -36,95 +37,95 @@ function HomePage({ navigation, route }) {
   };
 
   const [searchText, setSearchText] = useState("");
-  const [filteredSensors, setFilteredSensors] = useState([]);
-  const [sensors, setSensors] = useState([]);
+  const [buildings, setBuildings] = useState([]);
+  const [filteredBuildings, setFilteredBuildings] = useState([]);
+
 
   useEffect(() => {
-    const fetchSensors = async (user_data) => {
-      console.log("HERE")
+    const fetchBuilding = async (user_data) => {
+      console.log("BUILDING HERE")
       console.log(user_data)
       if (user_data["companyId"]) { // Check if data and companyId are defined
-        const sensors = await getCompanySensorsById(user_data["companyId"]);
-        console.log("sensors", sensors);
-        setSensors(sensors);
-        setFilteredSensors(sensors);
+        const buildings = await getBuildingByCompanyId(user_data["companyId"]);
+        console.log("buildings", buildings);
+        setBuildings(buildings);
+        setFilteredBuildings(buildings);
       }
     };
-    fetchSensors(user_data);
+    fetchBuilding(user_data);
   }, [user_data]);
 
   const handleSearch = (text) => {
     setSearchText(text);
-    const filtered = sensors.filter((sensor) => {
-      const searchStr = `${sensor.buildingName} - ${sensor.roomName}`.toLowerCase();
+    const filtered = buildings.filter((building) => {
+      const searchStr = `${building.name} - ${building.buildingId}`.toLowerCase();
       return searchStr.includes(text.toLowerCase());
     });
-    setFilteredSensors(filtered);
+    setFilteredBuildings(filtered);
   };
   
-  useEffect(() => {
-    const sortSensors = () => {
-      const sortedSensors = [...sensors].sort((a, b) => {
-        const buildingNameA = a.buildingName.toLowerCase();
-        const buildingNameB = b.buildingName.toLowerCase();
-        const roomNameA = a.roomName.toLowerCase();
-        const roomNameB = b.roomName.toLowerCase();
+  // useEffect(() => {
+  //   const sortSensors = () => {
+  //     const sortedSensors = [...sensors].sort((a, b) => {
+  //       const buildingNameA = a.buildingName.toLowerCase();
+  //       const buildingNameB = b.buildingName.toLowerCase();
+  //       const roomNameA = a.roomName.toLowerCase();
+  //       const roomNameB = b.roomName.toLowerCase();
   
-        if (buildingNameA === buildingNameB) {
-          return roomNameA.localeCompare(roomNameB);
-        }
-        return buildingNameA.localeCompare(buildingNameB);
-      });
+  //       if (buildingNameA === buildingNameB) {
+  //         return roomNameA.localeCompare(roomNameB);
+  //       }
+  //       return buildingNameA.localeCompare(buildingNameB);
+  //     });
   
-      setFilteredSensors(sortedSensors);
-    };
+  //     setFilteredSensors(sortedSensors);
+  //   };
   
-    sortSensors();
-  }, [sensors]);
+  //   sortSensors();
+  // }, [sensors]);
 
-  useEffect(() => {
-    if (searchText === '') {
-      const sortSensors = () => {
-        const sortedSensors = [...sensors].sort((a, b) => {
-          const buildingNameA = a.buildingName.toLowerCase();
-          const buildingNameB = b.buildingName.toLowerCase();
-          const roomNameA = a.roomName.toLowerCase();
-          const roomNameB = b.roomName.toLowerCase();
+  // useEffect(() => {
+  //   if (searchText === '') {
+  //     const sortSensors = () => {
+  //       const sortedSensors = [...sensors].sort((a, b) => {
+  //         const buildingNameA = a.buildingName.toLowerCase();
+  //         const buildingNameB = b.buildingName.toLowerCase();
+  //         const roomNameA = a.roomName.toLowerCase();
+  //         const roomNameB = b.roomName.toLowerCase();
   
-          if (buildingNameA === buildingNameB) {
-            return roomNameA.localeCompare(roomNameB);
-          }
-          return buildingNameA.localeCompare(buildingNameB);
-        });
+  //         if (buildingNameA === buildingNameB) {
+  //           return roomNameA.localeCompare(roomNameB);
+  //         }
+  //         return buildingNameA.localeCompare(buildingNameB);
+  //       });
   
-        setFilteredSensors(sortedSensors);
-      };
+  //       setFilteredSensors(sortedSensors);
+  //     };
   
-      sortSensors();
-    }
-  }, [searchText]);
+  //     sortSensors();
+  //   }
+  // }, [searchText]);
   
-  const Sensor = ({ sensor }) => {
+  const Building = ({ building }) => {
     const onPress = () => {
-      console.log(`Sensor ${sensor.roomName} pressed`);
-      navigation.navigate('Sensor Detail', { sensor: sensor });
+      console.log(`building ${building.name} pressed`);
+      navigation.navigate('Building Detail', { building: building });
     };
     return (
       <TouchableOpacity
         style={homePageStyles.buildingRow}
         onPress={onPress}
-        key={sensor.softId}
+        key={building.buildingId}
       >
         <View>
-        <Text style={homePageStyles.buildingName}>{sensor.buildingName} - {sensor.roomName} </Text>
-        <Text style={homePageStyles.locationName}>{sensor.locationInfo}</Text>
+        <Text style={homePageStyles.buildingName}>{building.name}</Text>
         </View>
 
       </TouchableOpacity>
     );
   };
 
-  const renderSensor = ({ item }) => <Sensor sensor={item} />;
+  const renderBuilding = ({ item }) => <Building building={item} />;
 
   return (
     <>
@@ -133,9 +134,9 @@ function HomePage({ navigation, route }) {
           <View style={homePageStyles.appBar}>
             <View style={homePageStyles.iconPosition}>
             <View>
-              <Text style={homePageStyles.appBarText}>MY DEVICES</Text>
+              <Text style={homePageStyles.appBarText}>MY BUILDINGS</Text>
             </View>
-            <View style={{ width: 100 }}/>
+            <View style={{ width: 65 }}/>
               <TouchableOpacity onPress={goProfile}>
                 <Image
                   style={homePageStyles.icon}
@@ -171,15 +172,15 @@ function HomePage({ navigation, route }) {
                 />
               </View>
               <FlatList
-                data={filteredSensors}
-                renderItem={renderSensor}
-                keyExtractor={(sensor) => sensor.softId}
+                data={filteredBuildings}
+                renderItem={renderBuilding}
+                keyExtractor={(building) => building.buildingId}
                 ListHeaderComponent={
                   <View style={homePageStyles.buildingsContainer}>
-                    {filteredSensors.length > 0 ? (
+                    {filteredBuildings.length > 0 ? (
                       null
                     ) : (
-                      <Text>No sensors found</Text>
+                      <Text>No building found</Text>
                     )}
                   </View>
                 }
