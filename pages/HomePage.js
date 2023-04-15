@@ -7,10 +7,12 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
+  Animated,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { getCompanySensorsByCompanyId } from "../Backend/sensorServices";
 import { getBuildingByCompanyId } from "../Backend/buildingServices";
+import { getRoomsByBuildingId } from "../Backend/roomService";
 
 function HomePage({ navigation, route }) {
   React.useLayoutEffect(() => {
@@ -64,6 +66,59 @@ function HomePage({ navigation, route }) {
     setFilteredBuildings(filtered);
   };
   
+
+  const ExpandableView = ({ expanded = false, parameterBuildingId}) => {
+    
+    const [rooms, setRooms] = useState([]);
+    const [filteredRooms, setFilteredRooms] = useState([]);
+  
+  
+    useEffect(() => {
+      const fetchRooms = async (id) => {
+        console.log("room HERE")
+        if (id) { // Check if id is defined
+          const rooms = await getRoomsByBuildingId(id);
+          console.log("rooms", rooms);
+          setRooms(rooms);
+          setFilteredRooms(rooms);
+        }
+      };
+      fetchRooms(parameterBuildingId);
+    }, [parameterBuildingId]);
+    
+    const [height, setHeight] = useState(new Animated.Value(0)); // Use state to manage height
+
+    useEffect(() => {
+      // Calculate height based on number of items in data
+      const newHeight = expanded ? rooms.length *40 : 0;
+      // Update height using state variable
+      Animated.timing(height, {
+        toValue: newHeight,
+        duration: 100,
+        useNativeDriver: false
+      }).start();
+    }, [expanded, rooms, height]);
+    
+
+    const onPressRoom = (room) => {
+      console.log(`room ${room.name} pressed`);
+      navigation.navigate('Room Detail', { room });
+    };
+
+    return (
+      <Animated.View
+        style={[homePageStyles.animatedView, { height, backgroundColor: '#569DAA' }]}
+      >
+         {rooms.map(item => ( // Update data to use rooms
+        <TouchableOpacity onPress={() => onPressRoom(item)} key={item.roomId} style={homePageStyles.roomsRows}>
+          <Text style={homePageStyles.rowsTextStyle}>{item.name}</Text>
+        </TouchableOpacity>
+      ))}
+      </Animated.View>
+    );
+  };
+
+
   // useEffect(() => {
   //   const sortSensors = () => {
   //     const sortedSensors = [...sensors].sort((a, b) => {
@@ -107,12 +162,15 @@ function HomePage({ navigation, route }) {
   // }, [searchText]);
   
   const Building = ({ building }) => {
+    const [isExpanded, setIsExpanded] = useState(false);
     const onPress = () => {
       console.log(`building ${building.name} pressed`);
-      navigation.navigate('Building Detail', { building: building });
+      //navigation.navigate('Building Detail', { building: building });
+      setIsExpanded(!isExpanded);
     };
     return (
-      <TouchableOpacity
+      <View>
+        <TouchableOpacity
         style={homePageStyles.buildingRow}
         onPress={onPress}
         key={building.buildingId}
@@ -122,6 +180,8 @@ function HomePage({ navigation, route }) {
         </View>
 
       </TouchableOpacity>
+      <ExpandableView expanded={isExpanded} parameterBuildingId={building.buildingId} />
+      </View>
     );
   };
 
@@ -184,7 +244,7 @@ function HomePage({ navigation, route }) {
                     )}
                   </View>
                 }
-                contentContainerStyle={{ paddingBottom: 100 }}
+                
               />
             </View>
           </View>
@@ -283,10 +343,15 @@ function HomePage({ navigation, route }) {
         alignItems: "center",
         justifyContent: "center",
         paddingHorizontal: 8,
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: "#077187",
         borderRadius: 10,
-        marginBottom: 15,
+        margin: 4,
+        elevation: 5, // for Android
+        shadowColor: '#000', // for iOS
+        shadowOffset: { width: 0, height: 2 }, // for iOS
+        shadowOpacity: 0.25, // for iOS
+        shadowRadius: 4, 
       },
       buildingName: {
         color: "#077187",
@@ -299,6 +364,20 @@ function HomePage({ navigation, route }) {
         fontSize: 16,
         fontWeight: "400",
         textAlign: "center",
+      },
+      roomsRows: {
+        padding: 10,
+        alignItems: "center",
+        justifyContent: "center",
+      },
+      rowsTextStyle: {
+        color: "#fff",
+        fontWeight: "500",
+      },
+      animatedView: {
+        borderRadius: 10,
+        paddingHorizontal: 8,
+        margin: 4,
       },
            
     });

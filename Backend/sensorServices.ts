@@ -7,6 +7,16 @@ export const getCompanySensorsByCompanyId = (companyId: any) => {
     });
 }
 
+
+export const getCompanySensorsByRoomId = (roomId: any) => {
+    const url =`http://10.0.2.2:5063/api/CompanySensors/GetCompanySensorByRoomId?roomId=${roomId}`;
+    
+    return fetch(url).then((response) => response.json()).catch(function(error){
+        console.log('getSensorError' + error.message);
+        throw error;
+    });
+}
+
 export const GetDataByMacId = (macID: any) => {
     const url =`http://10.0.2.2:5063/api/MonitorData/GetDataByMacId?macID=${macID}`;
     console.log(url);
