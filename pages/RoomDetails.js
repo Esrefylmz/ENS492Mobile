@@ -88,7 +88,7 @@ import {
     const Sensor = ({ sensor }) => {
       const onPress = () => {
         console.log(`Sensor ${sensor.macId} pressed`);
-        //navigation.navigate('sensor Detail', { sensor: sensor });
+        navigation.navigate('Sensor Detail', { sensor: sensor });
       };
       return (
         <TouchableOpacity

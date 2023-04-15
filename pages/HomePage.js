@@ -107,11 +107,16 @@ function HomePage({ navigation, route }) {
 
     return (
       <Animated.View
-        style={[homePageStyles.animatedView, { height, backgroundColor: '#569DAA' }]}
+        style={[homePageStyles.animatedView, { height, backgroundColor: '#F0F0F0'}]}
       >
          {rooms.map(item => ( // Update data to use rooms
         <TouchableOpacity onPress={() => onPressRoom(item)} key={item.roomId} style={homePageStyles.roomsRows}>
-          <Text style={homePageStyles.rowsTextStyle}>{item.name}</Text>
+          <View style={homePageStyles.roomRowContainer}>
+          {expanded && // Conditionally render arrow image based on expandable view trigger
+          <Image source={require('../assets/icons/door.png')} style={homePageStyles.arrowImage} />
+        }
+            <Text style={homePageStyles.rowsTextStyle}>{item.name}</Text>
+          </View>
         </TouchableOpacity>
       ))}
       </Animated.View>
@@ -346,7 +351,7 @@ function HomePage({ navigation, route }) {
         borderWidth: 2,
         borderColor: "#077187",
         borderRadius: 10,
-        margin: 4,
+        
         elevation: 5, // for Android
         shadowColor: '#000', // for iOS
         shadowOffset: { width: 0, height: 2 }, // for iOS
@@ -367,17 +372,27 @@ function HomePage({ navigation, route }) {
       },
       roomsRows: {
         padding: 10,
-        alignItems: "center",
+        alignItems: "stretch",
         justifyContent: "center",
       },
       rowsTextStyle: {
-        color: "#fff",
+        color: "#780303",
         fontWeight: "500",
       },
       animatedView: {
         borderRadius: 10,
         paddingHorizontal: 8,
         margin: 4,
+      },
+      roomRowContainer: {
+        flexDirection: 'row', // Align children in a row
+        alignItems: 'center', // Center align items vertically
+      },
+      arrowImage: {
+        width: 16, // Set the width of the arrow image
+        height: 16, // Set the height of the arrow image
+        marginRight: 8, // Add margin to the right of the arrow image for spacing
+        // Add any other styles for the arrow image here
       },
            
     });
