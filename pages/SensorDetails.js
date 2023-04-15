@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions , TouchableOpacity , ActivityIndicator } from 'react-native';
 import { GetDataByMacId } from "../Backend/sensorServices";
 import { LineChart } from 'react-native-chart-kit';
 import { loadMeasurementType } from '../Backend/measurementTypeServices';
+
 
 function BuildingDetails({ route }) {
   const { sensor } = route.params;
@@ -11,15 +12,17 @@ function BuildingDetails({ route }) {
 
   const [measurementTypes, setMeasurementTypes] = useState([]);
 
+  
 
-
+  const handleDataPointClick = (dataPoint) => {
+    setSelectedValue(dataPoint);
+  };
   const filterDataByMeasurementTypeId = (data, measurementTypeId) => {
     return data.filter(item => item.measurementTypeId === measurementTypeId);
   };
   const filteredData = filterDataByMeasurementTypeId(sensorData, 2);
   console.log("filtered data 7: ", filteredData);
   useEffect(() => {
-    // Fetch data from backend service when component mounts
     loadMeasurementType()
       .then((data) => setMeasurementTypes(data))
       .catch((error) => console.log(error));
@@ -42,38 +45,20 @@ function BuildingDetails({ route }) {
 
   console.log("SENSOR DATA", sensorData)
 
-  // Check if sensorData has been populated, otherwise return null
-  if (!sensorData.length) {
-    return (
-      <View>
-        <Text>annen</Text>
-      </View>
-    );
-  } else {
-    const xValues = filteredData.map(data => data.timestamp);
-    const yValues = filteredData.map(data => data.measurementValue);
-    // Define chart data
-    const chartData = {
-      labels: xValues,
-      datasets: [
-        {
-          data: yValues,
-        },
-      ],
-      // Map measurement types data to chart config
-      ...measurementTypes.reduce((acc, type) => {
-        return {
-          ...acc,
-          [type.measurementKey]: {
-            color: () => `rgba(${type.displayOrder * 30}, 113, 135, 1)`, // Use displayOrder property to dynamically generate color
-            label: type.measurementType1, // Use measurementType1 property as label
-            strokeWidth: 2, // Set desired strokeWidth
-            withDots: false, // Set desired dots property
-          },
-        };
-      }, {}),
-    };
+  const [selectedValue, setSelectedValue] = useState(null);
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    return `${hours}:${minutes}`;
+  };
 
+  const lastFilteredData = filteredData.filter((item, index) => {
+    const currentDate = new Date();
+    const itemDate = new Date(item.timestamp);
+    return index % Math.ceil(filteredData.length / 10) === 0 || itemDate > currentDate;
+  });
+  
     return (
       <View style={styles.container}>
         <Text style={styles.title}>{sensor.softId}</Text>
@@ -83,40 +68,81 @@ function BuildingDetails({ route }) {
         <View style={styles.detailsContainer}>
           <Text style={styles.detailsLabel}>MACID : {sensor.macId}</Text>
         </View>
-        <View style={styles.chartContainer}>
-          <LineChart
-            data={chartData}
-            width={Dimensions.get('window').width - 40} // Use window width with padding of 20 on each side
-            height={220}
-            chartConfig={chartConfig}
-          />
-        </View>
-      </View>
-    );
-  }
+        {lastFilteredData.length === 0 
+        ? (
+        <ActivityIndicator size="large" color="#000000" />) 
+        : (
+        <LineChart
+          data={{
+            labels: lastFilteredData.map((item) => formatTimestamp(item.timestamp)), // Format timestamp labels
+            datasets: [
+              {
+                data: lastFilteredData.map((item) => item.measurementValue),
+                color: (opacity = 1) => `rgba(255, 0, 0, ${opacity})`,
+              },
+            ],
+          }}
+          width={Dimensions.get('window').width - 40}
+          height={220}
+          chartConfig={{
+            backgroundGradientFrom: '#ffffff',
+            backgroundGradientTo: '#ffffff',
+            decimalPlaces: 2,
+            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+            style: {
+              borderRadius: 16,
+            },
+          }}
+          onDataPointClick={({ value, getColor }) => {
+            handleDataPointClick(value);
+          }}
+        />
+      )}
+      {selectedValue && (
+        <TouchableOpacity
+          onPress={() => setSelectedValue(null)}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          }}
+        >
+          <Text style={{ color: '#ffffff', fontSize: 24 }}>
+            {selectedValue.toFixed(2)}
+          </Text>
+        </TouchableOpacity>
+      )}
+    </View>);
 }
 
-const chartConfig = {
-  backgroundGradientFrom: '#fff',
-  backgroundGradientTo: '#fff',
-  decimalPlaces: 2,
-  color: (opacity = 1) => `rgba(7, 113, 135, ${opacity})`,
-  style: {
-    borderRadius: 16,
-  },
-  xAxis: {
-    valueFormatter: (value, index) => {
-      const timestamp = value[index];
-      return moment(timestamp).format('HH:mm');
-    },
-    labelStyle: {
-      color: 'rgba(7, 113, 135, 1)',
-    },
-    labelRotation: 10, // Set rotation for x-axis labels to -90 degrees
-  },
-};
-
 const styles = StyleSheet.create({
+  dropdownContainer: {
+    position: 'relative',
+  },
+  dropdownMenu: {
+    backgroundColor: '#fff', // Set desired background color
+    borderWidth: 1, // Set desired border width
+    borderColor: '#ccc', // Set desired border color
+    borderRadius: 4, // Set desired border radius
+    padding: 8, // Set desired padding
+    maxHeight: 200, // Set desired max height for dropdown menu
+    overflowY: 'auto', // Add scrollbar for long dropdown menus
+  },
+  dropdownItem: {
+    padding: 8, // Set desired padding for dropdown items
+    cursor: 'pointer', // Add pointer cursor for clickable items
+  },
+  dropdownItemSelected: {
+    backgroundColor: '#f0f0f0', // Set desired background color for selected item
+  },
+  dropdownItemText: {
+    // Add additional styles for dropdown item text as needed
+  },
   container: {
     flex: 1,
     padding: 20,
