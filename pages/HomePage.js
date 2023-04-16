@@ -107,13 +107,13 @@ function HomePage({ navigation, route }) {
 
     return (
       <Animated.View
-        style={[homePageStyles.animatedView, { height, backgroundColor: '#F0F0F0'}]}
+        style={[homePageStyles.animatedView, { height, backgroundColor: '#5dadbc'}]}
       >
          {rooms.map(item => ( // Update data to use rooms
         <TouchableOpacity onPress={() => onPressRoom(item)} key={item.roomId} style={homePageStyles.roomsRows}>
           <View style={homePageStyles.roomRowContainer}>
           {expanded && // Conditionally render arrow image based on expandable view trigger
-          <Image source={require('../assets/icons/door.png')} style={homePageStyles.arrowImage} />
+          <Image source={require('../assets/icons/blueDoor.png')} style={homePageStyles.arrowImage} />
         }
             <Text style={homePageStyles.rowsTextStyle}>{item.name}</Text>
           </View>
@@ -360,7 +360,6 @@ function HomePage({ navigation, route }) {
         borderWidth: 2,
         borderColor: "#077187",
         borderRadius: 10,
-        
         elevation: 5, // for Android
         shadowColor: '#000', // for iOS
         shadowOffset: { width: 0, height: 2 }, // for iOS
@@ -380,15 +379,17 @@ function HomePage({ navigation, route }) {
         textAlign: "center",
       },
       roomsRows: {
-        padding: 10,
+        padding: 10.5,
         alignItems: "stretch",
         justifyContent: "center",
+        borderBottomWidth: 0.5,
       },
       rowsTextStyle: {
-        color: "#780303",
+        color: "#fff",
         fontWeight: "500",
       },
       animatedView: {
+        overflow: "hidden",
         borderRadius: 10,
         paddingHorizontal: 8,
         margin: 4,

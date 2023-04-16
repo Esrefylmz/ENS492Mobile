@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Dimensions , TouchableOpacity , ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Dimensions , ActivityIndicator } from 'react-native';
+import {Picker} from '@react-native-picker/picker';
 import { GetDataByMacId } from "../Backend/sensorServices";
 import { LineChart } from 'react-native-chart-kit';
 import { loadMeasurementType } from '../Backend/measurementTypeServices';
@@ -12,6 +13,8 @@ function SensorDetails({ route }) {
   console.log("room", room);
   const [sensorData, setSensorData] = useState([]);
   const [measurementTypes, setMeasurementTypes] = useState([]);
+  const [selectedMeasurementType, setSelectedMeasurementType] = useState(null);
+
 
   const navigation3 = useNavigation();
   React.useLayoutEffect(() => {
@@ -26,9 +29,15 @@ function SensorDetails({ route }) {
 
   useEffect(() => {
     loadMeasurementType()
-      .then((data) => setMeasurementTypes(data))
+      .then((data) => {
+        setMeasurementTypes(data);
+        if (data.length > 0) {
+          setSelectedMeasurementType(data[0]);
+        }
+      })
       .catch((error) => console.log(error));
   }, []);
+  
 
   //console.log("measurement types", measurementTypes);
 
@@ -96,24 +105,30 @@ function SensorDetails({ route }) {
   }
 
   const renderMultipleLineCharts = (dataMultiple, measurementTypesData) => {
-    
-    return measurementTypesData.map((measurementType) => {
-      const { measurementTypeId, measurementType1 , unit } = measurementType;
-      //console.log("test", measurementType)
-      //console.log("measurementTypeId", measurementTypeId)
-      //console.log("measurementType1", measurementType1)
-      const filteredData = dataMultiple.filter(data => data.measurementTypeId === measurementTypeId);
-
-      return (
-        <View key={measurementTypeId}>
-          <Text style={styles.chartTitle}>{measurementType1} ({unit})</Text>
-          <View>
-            {renderLineChart(filteredData)}
-          </View>
+    const selectedData = dataMultiple.filter(
+      (data) => data.measurementTypeId === selectedMeasurementType?.measurementTypeId
+    );
+    return (
+      <View>
+        <Picker
+          selectedValue={selectedMeasurementType}
+          onValueChange={(itemValue, itemIndex) => setSelectedMeasurementType(itemValue)}
+        >
+          {measurementTypesData.map((measurementType) => (
+            <Picker.Item
+              key={measurementType.measurementTypeId}
+              label={`${measurementType.measurementType1} (${measurementType.unit})`}
+              value={measurementType}
+            />
+          ))}
+        </Picker>
+        <View>
+          {renderLineChart(selectedData)}
         </View>
-      );
-    });
+      </View>
+    );
   };
+  
 
   return (
     <View style={styles.container}>
@@ -122,10 +137,10 @@ function SensorDetails({ route }) {
         <Text style={styles.detailsLabel}>Location : {sensor.locationInfo}</Text>
       </View>
       <ScrollView style={styles.scrollViewContainer}>
-        {renderMultipleLineCharts(sensorData, measurementTypes )}
+        {renderMultipleLineCharts(sensorData, measurementTypes)}
       </ScrollView>
     </View>
-  );
+  );  
 }
 
 const styles = StyleSheet.create({
