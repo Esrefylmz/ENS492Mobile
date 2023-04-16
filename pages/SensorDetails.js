@@ -6,6 +6,8 @@ import { LineChart } from 'react-native-chart-kit';
 import { loadMeasurementType } from '../Backend/measurementTypeServices';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
+import Greenbutton from "../components/Greenbutton";
+import Redbutton from "../components/Redbutton";
 
 function SensorDetails({ route }) {
   const { sensor , room } = route.params;
@@ -132,7 +134,10 @@ function SensorDetails({ route }) {
     );
   };
   
-
+  const onPressEdit = (sensor) => {
+    console.log(`onPressEditpressed`);
+    navigation3.navigate('Edit Device', { sensor });
+  };
   return (
     <View style={styles.container}>
       <View style={styles.roomInfo}>
@@ -142,11 +147,26 @@ function SensorDetails({ route }) {
       <ScrollView style={styles.scrollViewContainer}>
         {renderMultipleLineCharts(sensorData, measurementTypes)}
       </ScrollView>
+      <View style={styles.buttons}>
+      <Greenbutton
+        title="Edit Device" // Pass the props as needed
+        onPressFunction={() => onPressEdit(sensor)}
+      />
+      <Redbutton
+        title="Remove Device"
+        onPressFunction={() => {
+          console.log("Button pressed");
+        }}
+      />
+      </View>
     </View>
   );  
 }
 
 const styles = StyleSheet.create({
+  buttons: {
+    flexDirection: "row",
+  },
   scrollViewContainer: {
     padding: 10,
   },

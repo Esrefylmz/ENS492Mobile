@@ -8,7 +8,8 @@ export const loadBuildings = () => {
 }
 
 export const getAllBuildingsByCompanyId = (id: any) => {
-    return fetch('${baseUrl}/${id}').then((response)=>response.json()).catch(function(error){
+    const url = `http://10.0.2.2:5063/api/CRUD/GetBuildingByCompanyId?Id=${id}`;
+    return fetch(url).then((response)=>response.json()).catch(function(error){
         console.log('getAllBuildingsByCompanyId error' + error.message);
         throw error;
     });
