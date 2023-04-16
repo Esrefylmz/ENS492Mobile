@@ -9,21 +9,15 @@ function SensorDetails({ route }) {
   const { sensor } = route.params;
   console.log('Sensor Details: ', sensor)
   const [sensorData, setSensorData] = useState([]);
-
   const [measurementTypes, setMeasurementTypes] = useState([]);
 
-  const filterDataByMeasurementTypeId = (data, measurementTypeId) => {
-    return data.filter(item => item.measurementTypeId === measurementTypeId);
-  };
-  const filteredData = filterDataByMeasurementTypeId(sensorData, 2);
-  console.log("filtered data 7: ", filteredData);
   useEffect(() => {
     loadMeasurementType()
       .then((data) => setMeasurementTypes(data))
       .catch((error) => console.log(error));
   }, []);
 
-  console.log("measurement types", measurementTypes);
+  //console.log("measurement types", measurementTypes);
 
   useEffect(() => {
     const fetchSensorData = async (sensor) => {
@@ -38,7 +32,7 @@ function SensorDetails({ route }) {
     fetchSensorData(sensor);
   }, [sensor]);
 
-  console.log("SENSOR DATA", sensorData)
+  //console.log("SENSOR DATA", sensorData)
 
   
   const formatTimestamp = (timestamp) => {
@@ -47,53 +41,86 @@ function SensorDetails({ route }) {
     const minutes = date.getMinutes();
     return `${hours}:${minutes}`;
   };
+
+
+  const renderLineChart = (data) => {
     return (
-      <View style={styles.container}>
-        <Text style={styles.title}>{sensor.softId}</Text>
-        <View style={styles.detailsContainer}>
-          <Text style={styles.detailsLabel}>Location : {sensor.locationInfo}</Text>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        {data.length === 0 ? (
+          <ActivityIndicator size="large" color="#000000" />
+        ) : (
+          <View>
+            <LineChart
+              data={{
+                labels: data.map((item) => formatTimestamp(item.timestamp)),
+                datasets: [
+                  {
+                    data: data.map((item) => item.measurementValue),
+                    color: (opacity = 1) => `rgba(255, 125, 0, ${opacity})`,
+                  },
+                ],
+              }}
+              width={Dimensions.get('window').width + 250}
+              height={300}
+              chartConfig={{
+                backgroundGradientFrom: "#F8F8F8",
+                backgroundGradientFromOpacity: 0.5,
+                backgroundGradientTo: "#F8F8F8",
+                backgroundGradientToOpacity: 0.5,
+                color: (opacity = 1) => `rgba(255, 25, 0, ${opacity})`,
+                strokeWidth: 5,
+                barPercentage: 0.5,
+                useShadowColorFromDataset: true,
+                decimalPlaces: 2,
+                propsForBackgroundLines: {
+                  strokeWidth: 0
+                }
+              }}     
+            />
+          </View>
+        )}
+      </ScrollView>
+    );
+  }
+
+  const renderMultipleLineCharts = (dataMultiple, measurementTypesData) => {
+    return measurementTypesData.map((measurementType) => {
+      const { measurementTypeId, measurementType1 , unit } = measurementType;
+      console.log("test", measurementType)
+      console.log("measurementTypeId", measurementTypeId)
+      console.log("measurementType1", measurementType1)
+      const filteredData = dataMultiple.filter(data => data.measurementTypeId === measurementTypeId);
+      return (
+        <View key={measurementTypeId}>
+          <Text style={styles.chartTitle}>{measurementType1} ({unit})</Text>
+          <View>
+            {renderLineChart(filteredData)}
+          </View>
         </View>
-        <View style={styles.detailsContainer}>
-          <Text style={styles.detailsLabel}>MACID : {sensor.macId}</Text>
-        </View>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-      {filteredData.length === 0 ? (
-        <ActivityIndicator size="large" color="#000000" />
-      ) : (
-        <View>
-          <LineChart
-            data={{
-              labels: filteredData.map((item) => formatTimestamp(item.timestamp)), // Use formatTimestamp to format timestamps
-              datasets: [
-                {
-                  data: filteredData.map((item) => item.measurementValue),
-                  color: (opacity = 1) => `rgba(255, 125, 0, ${opacity})`,
-                },
-              ],
-            }}
-            width={Dimensions.get('window').width + 250} // Increase width to allow for horizontal scrolling
-            height={300}
-            
-            chartConfig={{
-              backgroundGradientFrom: "#F8F8F8",
-              backgroundGradientFromOpacity: 0.5,
-              backgroundGradientTo: "#F8F8F8",
-              backgroundGradientToOpacity: 0.5,
-              color: (opacity = 1) => `rgba(255, 25, 0, ${opacity})`,
-              strokeWidth: 8, // optional, default 3
-              barPercentage: 0.5,
-              useShadowColorFromDataset: true,
-              decimalPlaces: 2,
-              propsForBackgroundLines: {
-                strokeWidth: 0
-              }
-            }}
-            
-          />
-        </View>
-      )}
-    </ScrollView>
-    </View>);
+      );
+    });
+  };
+
+  
+  
+  
+  
+  
+  
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>{sensor.softId}</Text>
+      <View style={styles.detailsContainer}>
+        <Text style={styles.detailsLabel}>Location : {sensor.locationInfo}</Text>
+      </View>
+      <View style={styles.detailsContainer}>
+        <Text style={styles.detailsLabel}>MACID : {sensor.macId}</Text>
+      </View>
+      <ScrollView >
+        {renderMultipleLineCharts(sensorData, measurementTypes )}
+      </ScrollView>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -101,6 +128,13 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     alignItems: 'center',
+  },
+  chartTitle:{
+    fontSize: 18,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: '#F09B28',
+    padding: 10,
   },
   title: {
     fontSize: 36,
