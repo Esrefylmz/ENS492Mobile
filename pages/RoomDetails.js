@@ -10,6 +10,7 @@ import {
   } from "react-native";
   import React, { useState, useEffect } from "react";
   import { getCompanySensorsByRoomId } from "../Backend/sensorServices";
+  import { useNavigation } from '@react-navigation/native';
   
   function HomePage({ navigation, route }) {
     const { room } = route.params;
@@ -84,11 +85,20 @@ import {
     //     sortSensors();
     //   }
     // }, [searchText]);
-    
+    const navigation2 = useNavigation();
+    React.useLayoutEffect(() => {
+      navigation2.setOptions({
+        title: `Room Detail - ${room.name}`,
+        headerTintColor: 'white',
+        headerStyle: {
+          backgroundColor: '#077187',
+        },
+      });
+    }, [navigation2, room.name]);
     const Sensor = ({ sensor }) => {
       const onPress = () => {
         console.log(`Sensor ${sensor.macId} pressed`);
-        navigation.navigate('Sensor Detail', { sensor: sensor });
+        navigation.navigate('Sensor Detail', { sensor, room});
       };
       return (
         <TouchableOpacity

@@ -10,9 +10,9 @@ import {
   Animated,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { getCompanySensorsByCompanyId } from "../Backend/sensorServices";
 import { getBuildingByCompanyId } from "../Backend/buildingServices";
 import { getRoomsByBuildingId } from "../Backend/roomService";
+import { useNavigation } from '@react-navigation/native';
 
 function HomePage({ navigation, route }) {
   React.useLayoutEffect(() => {
@@ -165,7 +165,16 @@ function HomePage({ navigation, route }) {
   //     sortSensors();
   //   }
   // }, [searchText]);
-  
+  const navigation2 = useNavigation();
+    React.useLayoutEffect(() => {
+      navigation2.setOptions({
+        title: `Home`,
+        headerTintColor: 'white',
+        headerStyle: {
+          backgroundColor: '#077187',
+        },
+      });
+    }, [navigation2]);
   const Building = ({ building }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const onPress = () => {
@@ -249,7 +258,7 @@ function HomePage({ navigation, route }) {
                     )}
                   </View>
                 }
-                
+              contentContainerStyle={{ paddingBottom: 100 }}  
               />
             </View>
           </View>

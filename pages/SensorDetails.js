@@ -4,12 +4,25 @@ import { GetDataByMacId } from "../Backend/sensorServices";
 import { LineChart } from 'react-native-chart-kit';
 import { loadMeasurementType } from '../Backend/measurementTypeServices';
 import { ScrollView } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 function SensorDetails({ route }) {
-  const { sensor } = route.params;
+  const { sensor , room } = route.params;
   console.log('Sensor Details: ', sensor)
+  console.log("room", room);
   const [sensorData, setSensorData] = useState([]);
   const [measurementTypes, setMeasurementTypes] = useState([]);
+
+  const navigation3 = useNavigation();
+  React.useLayoutEffect(() => {
+    navigation3.setOptions({
+      title: `Sensor Detail`,
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: '#077187',
+      },
+    });
+  }, [navigation3]);
 
   useEffect(() => {
     loadMeasurementType()
@@ -21,9 +34,9 @@ function SensorDetails({ route }) {
 
   useEffect(() => {
     const fetchSensorData = async (sensor) => {
-      console.log("HERE")
-      console.log(sensor)
-      console.log("MOM: ",sensor["macId"])
+      //console.log("HERE")
+      //console.log(sensor)
+      //console.log("MOM: ",sensor["macId"])
       if (sensor["macId"][2] === ":") { 
         const sensorData = await GetDataByMacId(sensor["macId"]);
         setSensorData(sensorData)        
@@ -56,7 +69,7 @@ function SensorDetails({ route }) {
                 datasets: [
                   {
                     data: data.map((item) => item.measurementValue),
-                    color: (opacity = 1) => `rgba(255, 125, 0, ${opacity})`,
+                    color: (opacity = 1) => '#F09B28',
                   },
                 ],
               }}
@@ -67,14 +80,13 @@ function SensorDetails({ route }) {
                 backgroundGradientFromOpacity: 0.5,
                 backgroundGradientTo: "#F8F8F8",
                 backgroundGradientToOpacity: 0.5,
-                color: (opacity = 1) => `rgba(255, 25, 0, ${opacity})`,
+                color: (opacity = 1) => '#077187',
                 strokeWidth: 5,
-                barPercentage: 0.5,
                 useShadowColorFromDataset: true,
-                decimalPlaces: 2,
+                decimalPlaces: data.some((item) => Math.abs(item.measurementValue) >= 100000) ? 0 : 2,
                 propsForBackgroundLines: {
                   strokeWidth: 0
-                }
+                },
               }}     
             />
           </View>
@@ -84,12 +96,14 @@ function SensorDetails({ route }) {
   }
 
   const renderMultipleLineCharts = (dataMultiple, measurementTypesData) => {
+    
     return measurementTypesData.map((measurementType) => {
       const { measurementTypeId, measurementType1 , unit } = measurementType;
-      console.log("test", measurementType)
-      console.log("measurementTypeId", measurementTypeId)
-      console.log("measurementType1", measurementType1)
+      //console.log("test", measurementType)
+      //console.log("measurementTypeId", measurementTypeId)
+      //console.log("measurementType1", measurementType1)
       const filteredData = dataMultiple.filter(data => data.measurementTypeId === measurementTypeId);
+
       return (
         <View key={measurementTypeId}>
           <Text style={styles.chartTitle}>{measurementType1} ({unit})</Text>
@@ -101,22 +115,13 @@ function SensorDetails({ route }) {
     });
   };
 
-  
-  
-  
-  
-  
-  
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{sensor.softId}</Text>
-      <View style={styles.detailsContainer}>
+      <View style={styles.roomInfo}>
+        <Text style={styles.title}>{room.name}</Text>
         <Text style={styles.detailsLabel}>Location : {sensor.locationInfo}</Text>
       </View>
-      <View style={styles.detailsContainer}>
-        <Text style={styles.detailsLabel}>MACID : {sensor.macId}</Text>
-      </View>
-      <ScrollView >
+      <ScrollView style={styles.scrollViewContainer}>
         {renderMultipleLineCharts(sensorData, measurementTypes )}
       </ScrollView>
     </View>
@@ -124,35 +129,40 @@ function SensorDetails({ route }) {
 }
 
 const styles = StyleSheet.create({
+  scrollViewContainer: {
+    padding: 10,
+  },
+  roomInfo: {
+    backgroundColor: '#077187',
+    marginBottom: 10,
+    width: '100%',
+  },
   container: {
-    flex: 1,
-    padding: 20,
     alignItems: 'center',
+    paddingBottom: 80,
   },
   chartTitle:{
     fontSize: 18,
     textAlign: 'center',
     fontWeight: 'bold',
     color: '#F09B28',
-    padding: 10,
   },
   title: {
-    fontSize: 36,
-    color: '#077187',
+    fontSize: 18,
+    color: '#fff',
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 10,
     borderBottomColor: "#077187",
     borderBottomWidth: 1,
-  },
-  detailsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 10,
+    paddingTop: 4,
   },
   detailsLabel: {
-    fontSize: 20,
+    fontSize: 14,
+    color: '#fff',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    borderBottomColor: "#077187",
+    paddingBottom: 8,
   },
   chartContainer: {
     marginTop: 20,
