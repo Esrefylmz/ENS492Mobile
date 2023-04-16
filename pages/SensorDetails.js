@@ -5,7 +5,6 @@ import { LineChart } from 'react-native-chart-kit';
 import { loadMeasurementType } from '../Backend/measurementTypeServices';
 import { ScrollView } from 'react-native-gesture-handler';
 
-
 function SensorDetails({ route }) {
   const { sensor } = route.params;
   console.log('Sensor Details: ', sensor)
@@ -62,31 +61,34 @@ function SensorDetails({ route }) {
         <ActivityIndicator size="large" color="#000000" />
       ) : (
         <View>
-          
           <LineChart
             data={{
               labels: filteredData.map((item) => formatTimestamp(item.timestamp)), // Use formatTimestamp to format timestamps
               datasets: [
                 {
                   data: filteredData.map((item) => item.measurementValue),
-                  color: (opacity = 1) => `rgba(255, 0, 0, ${opacity})`,
+                  color: (opacity = 1) => `rgba(255, 125, 0, ${opacity})`,
                 },
               ],
             }}
             width={Dimensions.get('window').width + 250} // Increase width to allow for horizontal scrolling
-            height={220}
+            height={300}
+            
             chartConfig={{
-              backgroundGradientFrom: 'white',
-              backgroundGradientTo: 'white',
+              backgroundGradientFrom: "#F8F8F8",
+              backgroundGradientFromOpacity: 0.5,
+              backgroundGradientTo: "#F8F8F8",
+              backgroundGradientToOpacity: 0.5,
+              color: (opacity = 1) => `rgba(255, 25, 0, ${opacity})`,
+              strokeWidth: 8, // optional, default 3
+              barPercentage: 0.5,
+              useShadowColorFromDataset: true,
               decimalPlaces: 2,
-              color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-              style: {
-                borderRadius: 16,
-              },
-            }}
-            onDataPointClick={({ value }) => {
+              propsForBackgroundLines: {
+                strokeWidth: 0
               }
-            }
+            }}
+            
           />
         </View>
       )}
