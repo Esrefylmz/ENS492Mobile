@@ -30,7 +30,7 @@ function HomePage({ navigation, route }) {
 
   const goProfile = () => {
     console.log("Profile icon pressed");
-    navigation.navigate("Profile", {user_data, sensors});
+    navigation.navigate("Profile", {user_data});
   };
 
   const goLogin = () => {

@@ -66,8 +66,22 @@ function SensorDetails({ route }) {
 
 
   const renderLineChart = (data) => {
+    const  chartConfig={
+      backgroundGradientFrom: "#F8F8F8",
+      backgroundGradientFromOpacity: 0.5,
+      backgroundGradientTo: "#F8F8F8",
+      backgroundGradientToOpacity: 0.5,
+      color: (opacity = 1) => '#077187',
+      strokeWidth: 5,
+      useShadowColorFromDataset: true,
+      decimalPlaces: data.some((item) => Math.abs(item.measurementValue) >= 100000) ? 0 : 2,
+      propsForBackgroundLines: {
+        strokeWidth: 0
+      },
+    } 
+
     return (
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={true}>
         {data.length === 0 ? (
           <ActivityIndicator size="large" color="#000000" />
         ) : (
@@ -83,20 +97,8 @@ function SensorDetails({ route }) {
                 ],
               }}
               width={Dimensions.get('window').width + 250}
-              height={300}
-              chartConfig={{
-                backgroundGradientFrom: "#F8F8F8",
-                backgroundGradientFromOpacity: 0.5,
-                backgroundGradientTo: "#F8F8F8",
-                backgroundGradientToOpacity: 0.5,
-                color: (opacity = 1) => '#077187',
-                strokeWidth: 5,
-                useShadowColorFromDataset: true,
-                decimalPlaces: data.some((item) => Math.abs(item.measurementValue) >= 100000) ? 0 : 2,
-                propsForBackgroundLines: {
-                  strokeWidth: 0
-                },
-              }}     
+              height={400}
+              chartConfig={chartConfig}     
             />
           </View>
         )}
@@ -109,8 +111,9 @@ function SensorDetails({ route }) {
       (data) => data.measurementTypeId === selectedMeasurementType?.measurementTypeId
     );
     return (
-      <View>
+      <View style={styles.pickerContainer}>
         <Picker
+          style={styles.picker}
           selectedValue={selectedMeasurementType}
           onValueChange={(itemValue, itemIndex) => setSelectedMeasurementType(itemValue)}
         >
@@ -181,6 +184,18 @@ const styles = StyleSheet.create({
   },
   chartContainer: {
     marginTop: 20,
+  },
+  pickerContainer: {
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 4,
+    overflow: 'hidden',
+    marginBottom: 10,
+  },
+  picker: {
+    height: 50,
+    width: '100%',
+    backgroundColor: '#fff',
   },
 });
 
