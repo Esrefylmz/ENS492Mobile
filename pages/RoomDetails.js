@@ -44,47 +44,6 @@ import {
       setFilteredSensors(filtered);
     };
     
-    // useEffect(() => {
-    //   const sortSensors = () => {
-    //     const sortedSensors = [...sensors].sort((a, b) => {
-    //       const buildingNameA = a.buildingName.toLowerCase();
-    //       const buildingNameB = b.buildingName.toLowerCase();
-    //       const roomNameA = a.roomName.toLowerCase();
-    //       const roomNameB = b.roomName.toLowerCase();
-    
-    //       if (buildingNameA === buildingNameB) {
-    //         return roomNameA.localeCompare(roomNameB);
-    //       }
-    //       return buildingNameA.localeCompare(buildingNameB);
-    //     });
-    
-    //     setFilteredSensors(sortedSensors);
-    //   };
-    
-    //   sortSensors();
-    // }, [sensors]);
-  
-    // useEffect(() => {
-    //   if (searchText === '') {
-    //     const sortSensors = () => {
-    //       const sortedSensors = [...sensors].sort((a, b) => {
-    //         const buildingNameA = a.buildingName.toLowerCase();
-    //         const buildingNameB = b.buildingName.toLowerCase();
-    //         const roomNameA = a.roomName.toLowerCase();
-    //         const roomNameB = b.roomName.toLowerCase();
-    
-    //         if (buildingNameA === buildingNameB) {
-    //           return roomNameA.localeCompare(roomNameB);
-    //         }
-    //         return buildingNameA.localeCompare(buildingNameB);
-    //       });
-    
-    //       setFilteredSensors(sortedSensors);
-    //     };
-    
-    //     sortSensors();
-    //   }
-    // }, [searchText]);
     const navigation2 = useNavigation();
     React.useLayoutEffect(() => {
       navigation2.setOptions({
@@ -126,7 +85,6 @@ import {
               <View>
                 <Text style={homePageStyles.appBarText}>{room.name}</Text>
               </View>
-              <View style={{ width: 90 }}/>
                 <TouchableOpacity>
                   <Image
                     style={homePageStyles.icon}
@@ -192,11 +150,11 @@ import {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
+          marginBottom: 10,
         },
         iconPosition: {
           flexDirection: "row",
-          justifyContent: "flex-start",
-          alignItems: "center",
+          justifyContent: "center",
         },      
         icon: {
           width: 30,
@@ -210,7 +168,7 @@ import {
           fontWeight: "bold",
           letterSpacing: 0.2,
           color: "#1D6E7F",
-        },  
+        },   
         configureButton: {
           marginTop: 10,
           marginBottom: 20,

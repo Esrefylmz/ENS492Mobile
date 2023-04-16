@@ -67,104 +67,71 @@ function HomePage({ navigation, route }) {
   };
   
 
-  const ExpandableView = ({ expanded = false, parameterBuildingId}) => {
-    
+  const ExpandableView = ({ expanded = false, parameterBuildingId }) => {
     const [rooms, setRooms] = useState([]);
-    const [filteredRooms, setFilteredRooms] = useState([]);
-  
+    const [sortedRooms, setSortedRooms] = useState([]);
   
     useEffect(() => {
       const fetchRooms = async (id) => {
-        console.log("room HERE")
-        if (id) { // Check if id is defined
+        console.log("room HERE");
+        if (id) {
           const rooms = await getRoomsByBuildingId(id);
           console.log("rooms", rooms);
           setRooms(rooms);
-          setFilteredRooms(rooms);
         }
       };
       fetchRooms(parameterBuildingId);
     }, [parameterBuildingId]);
-    
-    const [height, setHeight] = useState(new Animated.Value(0)); // Use state to manage height
-
+  
     useEffect(() => {
-      // Calculate height based on number of items in data
-      const newHeight = expanded ? rooms.length *40 : 0;
-      // Update height using state variable
+      setSortedRooms([...rooms].sort((a, b) => a.name.localeCompare(b.name)));
+    }, [rooms]);
+  
+    const [height, setHeight] = useState(new Animated.Value(0));
+  
+    useEffect(() => {
+      const newHeight = expanded ? sortedRooms.length * 40 : 0;
       Animated.timing(height, {
         toValue: newHeight,
         duration: 100,
-        useNativeDriver: false
+        useNativeDriver: false,
       }).start();
-    }, [expanded, rooms, height]);
-    
-
+    }, [expanded, sortedRooms, height]);
+  
     const onPressRoom = (room) => {
       console.log(`room ${room.name} pressed`);
-      navigation.navigate('Room Detail', { room , user_data});
+      navigation.navigate("Room Detail", { room, user_data });
     };
-
+  
     return (
       <Animated.View
-        style={[homePageStyles.animatedView, { height, backgroundColor: '#5dadbc'}]}
+        style={[
+          homePageStyles.animatedView,
+          { height, backgroundColor: "#5dadbc" },
+        ]}
       >
-         {rooms.map(item => ( // Update data to use rooms
-        <TouchableOpacity onPress={() => onPressRoom(item)} key={item.roomId} style={homePageStyles.roomsRows}>
-          <View style={homePageStyles.roomRowContainer}>
-          {expanded && // Conditionally render arrow image based on expandable view trigger
-          <Image source={require('../assets/icons/blueDoor.png')} style={homePageStyles.arrowImage} />
-        }
-            <Text style={homePageStyles.rowsTextStyle}>{item.name}</Text>
-          </View>
-        </TouchableOpacity>
-      ))}
+        {sortedRooms.map((item) => (
+          <TouchableOpacity
+            onPress={() => onPressRoom(item)}
+            key={item.roomId}
+            style={homePageStyles.roomsRows}
+          >
+            <View style={homePageStyles.roomRowContainer}>
+              {expanded && (
+                <Image
+                  source={require("../assets/icons/blueDoor.png")}
+                  style={homePageStyles.arrowImage}
+                />
+              )}
+              <Text style={homePageStyles.rowsTextStyle}>{item.name}</Text>
+            </View>
+          </TouchableOpacity>
+        ))}
       </Animated.View>
     );
   };
+  
 
-
-  // useEffect(() => {
-  //   const sortSensors = () => {
-  //     const sortedSensors = [...sensors].sort((a, b) => {
-  //       const buildingNameA = a.buildingName.toLowerCase();
-  //       const buildingNameB = b.buildingName.toLowerCase();
-  //       const roomNameA = a.roomName.toLowerCase();
-  //       const roomNameB = b.roomName.toLowerCase();
-  
-  //       if (buildingNameA === buildingNameB) {
-  //         return roomNameA.localeCompare(roomNameB);
-  //       }
-  //       return buildingNameA.localeCompare(buildingNameB);
-  //     });
-  
-  //     setFilteredSensors(sortedSensors);
-  //   };
-  
-  //   sortSensors();
-  // }, [sensors]);
-
-  // useEffect(() => {
-  //   if (searchText === '') {
-  //     const sortSensors = () => {
-  //       const sortedSensors = [...sensors].sort((a, b) => {
-  //         const buildingNameA = a.buildingName.toLowerCase();
-  //         const buildingNameB = b.buildingName.toLowerCase();
-  //         const roomNameA = a.roomName.toLowerCase();
-  //         const roomNameB = b.roomName.toLowerCase();
-  
-  //         if (buildingNameA === buildingNameB) {
-  //           return roomNameA.localeCompare(roomNameB);
-  //         }
-  //         return buildingNameA.localeCompare(buildingNameB);
-  //       });
-  
-  //       setFilteredSensors(sortedSensors);
-  //     };
-  
-  //     sortSensors();
-  //   }
-  // }, [searchText]);
   const navigation2 = useNavigation();
     React.useLayoutEffect(() => {
       navigation2.setOptions({
@@ -175,11 +142,11 @@ function HomePage({ navigation, route }) {
         },
       });
     }, [navigation2]);
+
   const Building = ({ building }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const onPress = () => {
       console.log(`building ${building.name} pressed`);
-      //navigation.navigate('Building Detail', { building: building });
       setIsExpanded(!isExpanded);
     };
     return (
@@ -304,7 +271,7 @@ function HomePage({ navigation, route }) {
       },  
       configureButton: {
         marginTop: 10,
-        marginBottom: 20,
+        marginBottom: 10,
       },
       button: {
         backgroundColor: "#077187",

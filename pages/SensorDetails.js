@@ -47,7 +47,6 @@ function SensorDetails({ route, navigation }) {
     const fetchSensorData = async (sensor) => {
       //console.log("HERE")
       //console.log(sensor)
-      //console.log("MOM: ",sensor["macId"])
       if (sensor["macId"][2] === ":") { 
         const sensorData = await GetDataByMacId(sensor["macId"]);
         setSensorData(sensorData)        
@@ -55,9 +54,6 @@ function SensorDetails({ route, navigation }) {
     };
     fetchSensorData(sensor);
   }, [sensor]);
-
-  //console.log("SENSOR DATA", sensorData)
-
   
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
@@ -209,9 +205,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     textAlign: 'center',
-    borderBottomColor: "#077187",
-    borderBottomWidth: 1,
-    paddingTop: 4,
+    paddingTop: 5,
   },
   detailsLabel: {
     fontSize: 14,
