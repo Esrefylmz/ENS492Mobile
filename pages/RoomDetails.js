@@ -13,7 +13,7 @@ import {
   import { useNavigation } from '@react-navigation/native';
   
   function HomePage({ navigation, route }) {
-    const { room } = route.params;
+    const { room , user_data } = route.params;
     console.log("data homepage: ", room)
   
     const [searchText, setSearchText] = useState("");
@@ -98,7 +98,7 @@ import {
     const Sensor = ({ sensor }) => {
       const onPress = () => {
         console.log(`Sensor ${sensor.macId} pressed`);
-        navigation.navigate('Sensor Detail', { sensor, room});
+        navigation.navigate('Sensor Detail', { sensor, room, user_data});
       };
       return (
         <TouchableOpacity

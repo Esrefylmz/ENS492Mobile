@@ -25,3 +25,24 @@ export const GetDataByMacId = (macID: any) => {
         throw error;
     });
 }
+
+export const updateSensor = (sensor: any) =>{
+    const url =`http://10.0.2.2:5063/api/CompanySensors/PutCompanySensor`;
+    return fetch(url, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            SoftId: sensor.SoftId,
+            MacId: sensor.MacId,
+            CompanyId: sensor.CompanyId,
+            RoomId: sensor.RoomId,
+            LocationInfo: sensor.LocationInfo,
+            BuildingId: sensor.BuildingId
+        }),
+    }).then((response) => response.json()).catch(function(error){
+        console.log('updatesensors error' + error.message);
+        throw error;
+    });
+}

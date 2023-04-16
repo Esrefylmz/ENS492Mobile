@@ -10,7 +10,7 @@ import Greenbutton from "../components/Greenbutton";
 import Redbutton from "../components/Redbutton";
 
 function SensorDetails({ route }) {
-  const { sensor , room } = route.params;
+  const { sensor , room, user_data } = route.params;
   console.log('Sensor Details: ', sensor)
   console.log("room", room);
   const [sensorData, setSensorData] = useState([]);
@@ -136,7 +136,7 @@ function SensorDetails({ route }) {
   
   const onPressEdit = (sensor) => {
     console.log(`onPressEditpressed`);
-    navigation3.navigate('Edit Device', { sensor });
+    navigation3.navigate('Edit Device', { sensor, user_data });
   };
   return (
     <View style={styles.container}>

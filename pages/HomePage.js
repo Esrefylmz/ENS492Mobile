@@ -102,7 +102,7 @@ function HomePage({ navigation, route }) {
 
     const onPressRoom = (room) => {
       console.log(`room ${room.name} pressed`);
-      navigation.navigate('Room Detail', { room });
+      navigation.navigate('Room Detail', { room , user_data});
     };
 
     return (

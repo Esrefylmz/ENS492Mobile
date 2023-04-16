@@ -1,11 +1,12 @@
 import React, { useState , useEffect } from "react";
 import { View, TextInput, StyleSheet, Button } from "react-native";
 import { Picker } from '@react-native-picker/picker';
-import { getAllBuildingsByCompanyId } from "../Backend/buildingServices";
+import { getAllBuildingsByCompanyId, updateBuilding } from "../Backend/buildingServices";
 import { getRoomsByBuildingId } from "../Backend/roomService";
+import { updateSensor } from "../Backend/sensorServices";
 
-const EditDevice = ({ route }) => {
-  const { sensor } = route.params;
+const EditDevice = ({ route , navigation }) => {
+  const { sensor , user_data } = route.params;
   console.log("edit device Sensor", sensor);
   const [buildingData, setBuildingData] = useState([]);
   const [roomData, setRoomData] = useState([]);
@@ -40,7 +41,34 @@ const EditDevice = ({ route }) => {
 
   console.log("buildings of the company", buildingData);
   console.log("rooms of the selected building of the company", roomData);
-  const handleSave = () => {
+  const handleSave = async () => {
+
+    const requestBody = {
+        SoftId: sensor["softId"],
+        MacId: sensor["macId"],// Replace with the actual softId of the sensor you want to update
+        CompanyId: sensor["companyId"],
+        RoomId: room,
+        LocationInfo: deviceLocation,
+        BuildingId: building,
+      };
+    
+    await updateSensor(requestBody).then(response => {
+        console.log(response);
+        if (response) {
+          // Handle successful response
+          console.log('Sensor updated successfully');
+        } else {
+          // Handle error response
+          console.error('Failed to update sensor');
+        }
+      })
+      .catch(error => {
+        // Handle fetch error
+        console.error('Failed to fetch:', error);
+      }).then(() => { 
+        navigation.navigate('Home', {user_data});
+      });
+
     console.log("Device information saved:", {
       building,
       room,
