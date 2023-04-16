@@ -46,3 +46,14 @@ export const updateSensor = (sensor: any) =>{
         throw error;
     });
 }
+
+
+export const deleteSensor = (id: any) => {
+    const url =`http://10.0.2.2:5063/api/CompanySensors/DeleteCompanySensorsById?id=${id}`;
+    return fetch(url, {
+        method: "DELETE",
+    }).then((response) => response.json()).catch(function(error){
+        console.log('deletesensors error' + error.message);
+        throw error;
+    });
+}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Dimensions , ActivityIndicator } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
-import { GetDataByMacId } from "../Backend/sensorServices";
+import { GetDataByMacId, deleteSensor } from "../Backend/sensorServices";
 import { LineChart } from 'react-native-chart-kit';
 import { loadMeasurementType } from '../Backend/measurementTypeServices';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import Greenbutton from "../components/Greenbutton";
 import Redbutton from "../components/Redbutton";
 
-function SensorDetails({ route }) {
+function SensorDetails({ route, navigation }) {
   const { sensor , room, user_data } = route.params;
   console.log('Sensor Details: ', sensor)
   console.log("room", room);
@@ -138,6 +138,27 @@ function SensorDetails({ route }) {
     console.log(`onPressEditpressed`);
     navigation3.navigate('Edit Device', { sensor, user_data });
   };
+
+
+  const onPressRemove = async (sensor) => {
+    await deleteSensor(sensor["softId"]).then(response => {
+      console.log(response);
+      if (response) {
+        // Handle successful response
+        console.log('Sensor deleted successfully');
+      } else {
+        // Handle error response
+        console.error('Failed to delete sensor');
+      }
+    })
+    .catch(error => {
+      // Handle fetch error
+      console.error('Failed to fetch:', error);
+    }).then(() => { 
+      navigation.navigate('Home', {user_data});
+    });
+    
+  };
   return (
     <View style={styles.container}>
       <View style={styles.roomInfo}>
@@ -154,9 +175,7 @@ function SensorDetails({ route }) {
       />
       <Redbutton
         title="Remove Device"
-        onPressFunction={() => {
-          console.log("Button pressed");
-        }}
+        onPressFunction={() => onPressRemove(sensor)}
       />
       </View>
     </View>
