@@ -62,7 +62,13 @@ function SensorDetails({ route, navigation }) {
     return `${hours}:${minutes}`;
   };
 
+  const [selectedDataPoint, setSelectedDataPoint] = useState(null);
 
+  const handleDataPointClick = (data) => {
+    // Update the state with the clicked data point
+    setSelectedDataPoint(data);
+    console.log("data", data);
+  };
   const renderLineChart = (data) => {
     const  chartConfig={
       backgroundGradientFrom: "#F8F8F8",
@@ -77,30 +83,50 @@ function SensorDetails({ route, navigation }) {
         strokeWidth: 0
       },
     } 
-
+    
     return (
       <ScrollView horizontal showsHorizontalScrollIndicator={true}>
-        {data.length === 0 ? (
-          <ActivityIndicator size="large" color="#000000" />
-        ) : (
-          <View>
-            <LineChart
-              data={{
-                labels: data.map((item) => formatTimestamp(item.timestamp)),
-                datasets: [
-                  {
-                    data: data.map((item) => item.measurementValue),
-                    color: (opacity = 1) => '#F09B28',
-                  },
-                ],
+      {data.length === 0 ? (
+        <ActivityIndicator size="large" color="#000000" />
+      ) : (
+        <View>
+          <LineChart
+            data={{
+              labels: data.map((item) => formatTimestamp(item.timestamp)),
+              datasets: [
+                {
+                  data: data.map((item) => item.measurementValue),
+                  color: (opacity = 1) => '#F09B28',
+                },
+              ],
+            }}
+            width={Dimensions.get('window').width + 250}
+            height={400}
+            chartConfig={chartConfig}
+            onDataPointClick={handleDataPointClick} // Add onDataPointClick event handler
+          />
+          {selectedDataPoint && ( // Render the small box with info if a data point is selected
+            <View
+              style={{
+                position: 'absolute',
+                top: selectedDataPoint.y, // Position the box based on the selected data point
+                left: selectedDataPoint.x, // Position the box based on the selected data point
+                backgroundColor: '#ffffff',
+                padding: 10,
+                borderRadius: 5,
+                borderWidth: 1,
+                borderColor: '#077187',
               }}
-              width={Dimensions.get('window').width + 250}
-              height={400}
-              chartConfig={chartConfig}     
-            />
-          </View>
-        )}
-      </ScrollView>
+            >
+              <Text style={{
+                fontWeight: "bold",
+                color: '#077187',
+              }}>{`${selectedDataPoint.value}`}</Text>
+            </View>
+          )}
+        </View>
+      )}
+    </ScrollView>
     );
   }
 
@@ -109,8 +135,9 @@ function SensorDetails({ route, navigation }) {
       (data) => data.measurementTypeId === selectedMeasurementType?.measurementTypeId
     );
     return (
-      <View style={styles.pickerContainer}>
+      <View style={styles.pickerContainer} >
         <Picker
+          onBlur={handleScreenTouch}
           style={styles.picker}
           selectedValue={selectedMeasurementType}
           onValueChange={(itemValue, itemIndex) => setSelectedMeasurementType(itemValue)}
@@ -120,6 +147,7 @@ function SensorDetails({ route, navigation }) {
               key={measurementType.measurementTypeId}
               label={`${measurementType.measurementType1} (${measurementType.unit})`}
               value={measurementType}
+              
             />
           ))}
         </Picker>
@@ -155,16 +183,20 @@ function SensorDetails({ route, navigation }) {
     });
     
   };
+  const handleScreenTouch = () => {
+    // Reset the selected data point state when screen is touched
+    setSelectedDataPoint(null);
+  };
   return (
-    <View style={styles.container}>
-      <View style={styles.roomInfo}>
+    <View style={styles.container} >
+      <View style={styles.roomInfo} onTouchEnd={handleScreenTouch}>
         <Text style={styles.title}>{room.name}</Text>
         <Text style={styles.detailsLabel}>Location : {sensor.locationInfo}</Text>
       </View>
-      <ScrollView style={styles.scrollViewContainer}>
+      <ScrollView style={styles.scrollViewContainer} >
         {renderMultipleLineCharts(sensorData, measurementTypes)}
       </ScrollView>
-      <View style={styles.buttons}>
+      <View style={styles.buttons} onTouchEnd={handleScreenTouch}>
         <Greenbutton
           title="Edit Device" // Pass the props as needed
           onPressFunction={() => onPressEdit(sensor)}
