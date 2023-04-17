@@ -3,7 +3,7 @@ import { View, TextInput, StyleSheet, Button } from "react-native";
 import { Picker } from '@react-native-picker/picker';
 import { getAllBuildingsByCompanyId, updateBuilding } from "../Backend/buildingServices";
 import { getRoomsByBuildingId } from "../Backend/roomService";
-import { updateSensor } from "../Backend/sensorServices";
+import { updateSensor, createSensorDateLog } from "../Backend/sensorServices";
 import { useNavigation } from '@react-navigation/native';
 import Greenbutton from "../components/Greenbutton";
 import Redbutton from "../components/Redbutton";
@@ -11,11 +11,14 @@ import Snackbar from 'react-native-snackbar';
 
 const EditDevice = ({ route , navigation }) => {
   const { sensor , user_data , room } = route.params;
-  console.log("edit device Sensor", sensor);
+  //console.log("edit device Sensor", sensor);
+  //console.log("user_data", user_data);
+  //console.log("room", room);
   const [buildingData, setBuildingData] = useState([]);
   const [roomData, setRoomData] = useState([]);
   const [building, setBuilding] = useState(0);
   const [room2, setRoom] = useState("");
+  const [selectedRoomName, setSelectedRoomName] = useState("");
   const [deviceLocation, setDeviceLocation] = useState("");
   const navigation3 = useNavigation();
   React.useLayoutEffect(() => {
@@ -38,7 +41,7 @@ const EditDevice = ({ route , navigation }) => {
     fetchBuildingData(sensor);
   }, [sensor]);
 
-  console.log("selected building", building);
+  //console.log("selected building", building);
 
   useEffect(() => {
     if (building != null) {
@@ -53,56 +56,82 @@ const EditDevice = ({ route , navigation }) => {
   }, [building]);
 
 
-  console.log("buildings of the company", buildingData);
-  console.log("rooms of the selected building of the company", roomData);
+  //console.log("buildings of the company", buildingData);
+  //console.log("rooms of the selected building of the company", roomData);
   const handleSave = async () => {
-
-
-    if(room2 == null || deviceLocation == "" || building == null){
+    if (room2 == null || deviceLocation == "" || building == null) {
       Snackbar.show({
         text: 'Please fill all required information',
         backgroundColor: '#D62525',
         duration: Snackbar.LENGTH_SHORT,
       });
-    }
-    else{
+    } else {
       const requestBody = {
         SoftId: sensor["softId"],
-        MacId: sensor["macId"],// Replace with the actual softId of the sensor you want to update
+        MacId: sensor["macId"],
         CompanyId: sensor["companyId"],
         RoomId: room2,
         LocationInfo: deviceLocation,
         BuildingId: building,
       };
-    
-    
-    
-      await updateSensor(requestBody).then(response => {
-          console.log(response);
-          if (response) {
-            // Handle successful response
-            console.log('Sensor updated successfully');
-          } else {
-            // Handle error response
-            console.error('Failed to update sensor');
-          }
-        })
-        .catch(error => {
-          // Handle fetch error
-          console.error('Failed to fetch:', error);
-        }).then(() => { 
-          navigation.navigate('Home', {user_data});
+  
+      const sensorLogRequest = {
+        MacId: sensor["macId"],
+        RoomName: selectedRoomName,
+        BuildingId: building,
+        LocationInfo: deviceLocation,
+        CompanyId: sensor["companyId"],
+        LogDate: new Date().toISOString(),
+        UserId: user_data["userId"],
+        Username: user_data["username"],
+        Usermail: user_data["usermail"],
+        OldLocationInfo: sensor["locationInfo"],
+        OldBuildingId: sensor["buildingId"],
+        OldRoomId: sensor["roomId"],
+        OldRoomName: room["name"],
+        RoomId: room2,   
+      };
+  
+      try {
+        const response = await updateSensor(requestBody);
+        console.log(response);
+        if (response) {
+          Snackbar.show({
+            text: 'Sensor updated successfully!',
+            backgroundColor: '#49B365',
+            duration: Snackbar.LENGTH_SHORT,
+          });
+          const sensorLogResponse = await createSensorDateLog(sensorLogRequest);
+        } else {
+          Snackbar.show({
+            text: 'Failed to update sensor!',
+            backgroundColor: '#D62525',
+            duration: Snackbar.LENGTH_SHORT,
+          });;
+        }
+      } catch (error) {
+        Snackbar.show({
+          text: 'Failed to fetch!',
+          backgroundColor: '#D62525',
+          duration: Snackbar.LENGTH_SHORT,
         });
-
-      console.log("Device information saved:", {
+      } finally {
+        navigation.navigate('Home', { user_data });
+      }
+  
+      /*console.log("Device information saved:", {
         building,
         room2,
         deviceLocation,
-      });
+      });*/
     }
-
-    
   };
+  
+  
+  
+  
+  
+  
 
 
   const cancelEdit = () => {
@@ -127,7 +156,13 @@ const EditDevice = ({ route , navigation }) => {
         <Picker
           style={styles.picker}
           selectedValue={room2}
-          onValueChange={(itemValue, itemIndex) => setRoom(itemValue)}
+          onValueChange={(itemValue, itemIndex) => {
+            setRoom(itemValue);
+            const selectedRoom = roomData.find(room => room.roomId === itemValue);
+            if (selectedRoom) {
+              setSelectedRoomName(selectedRoom.name);
+            }
+          }}
         >
           <Picker.Item label="Select a room" value={null} />
           {roomData.map(room2 => (

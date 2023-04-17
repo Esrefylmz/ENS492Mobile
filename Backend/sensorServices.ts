@@ -57,3 +57,33 @@ export const deleteSensor = (id: any) => {
         throw error;
     });
 }
+
+export const createSensorDateLog = (sensorDateLog: any) => {
+    const url =`http://10.0.2.2:5063/api/SensorDateLog/PostSensorDateLog`;
+    return fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            MacId: sensorDateLog.MacId,
+            RoomName: sensorDateLog.RoomName,
+            BuildingId: sensorDateLog.BuildingId,
+            LocationInfo: sensorDateLog.LocationInfo,
+            CompanyId: sensorDateLog.CompanyId,
+            LogDate: sensorDateLog.LogDate,
+            UserId: sensorDateLog.UserId,
+            Username: sensorDateLog.Username,
+            Usermail: sensorDateLog.Usermail,
+            OldLocationInfo: sensorDateLog.OldLocationInfo,
+            OldBuildingId: sensorDateLog.OldBuildingId,
+            OldRoomId: sensorDateLog.OldRoomId,
+            OldRoomName: sensorDateLog.OldRoomName,
+            RoomId: sensorDateLog.RoomId,
+
+        }),
+    }).then((response) => response.json()).catch(function(error){
+        console.log('createSensorDateLog error' + error.message);
+        throw error;
+    });
+}

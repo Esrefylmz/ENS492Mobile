@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Dimensions , ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Dimensions , ActivityIndicator, TouchableOpacity, Image } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import { GetDataByMacId, deleteSensor } from "../Backend/sensorServices";
 import { LineChart } from 'react-native-chart-kit';
@@ -8,6 +8,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import Greenbutton from "../components/Greenbutton";
 import Redbutton from "../components/Redbutton";
+import { Alert } from 'react-native';
+import Snackbar from 'react-native-snackbar';
 
 function SensorDetails({ route, navigation }) {
   const { sensor , room, user_data } = route.params;
@@ -162,9 +164,63 @@ function SensorDetails({ route, navigation }) {
     console.log(`onPressEditpressed`);
     navigation3.navigate('Edit Device', { sensor, user_data , room});
   };
-
-
   const onPressRemove = async (sensor) => {
+    // Show confirmation alert
+    Alert.alert(
+      'Confirmation',
+      'Are you sure you want to delete this sensor?',
+      [
+        {
+          text: 'Yes',
+          onPress: async () => {
+            try {
+              // Call deleteSensor function
+              const response = await deleteSensor(sensor["softId"]);
+              console.log(response);
+              
+              if (response) {
+                Snackbar.show({
+                  text: 'Sensor deleted successfully!',
+                  backgroundColor: '#49B365',
+                  duration: Snackbar.LENGTH_SHORT,
+                });
+              } else {
+                Snackbar.show({
+                  text: 'Failed to delete sensor!',
+                  backgroundColor: '#D62525',
+                  duration: Snackbar.LENGTH_SHORT,
+                });
+              }
+              
+            } catch (error) {
+              Snackbar.show({
+                text: 'Failed: ' + error.toString(),
+                backgroundColor: '#D62525',
+                duration: Snackbar.LENGTH_SHORT,
+              });
+            } finally {
+              // Navigate to Home screen after deletion
+              navigation.navigate('Home', { user_data });
+            }
+          },
+        },
+        {
+          text: 'No',
+          onPress: () => {
+            Snackbar.show({
+              text: 'Sensor deletion is cancelled!',
+              backgroundColor: '#D62525',
+              duration: Snackbar.LENGTH_SHORT,
+            });
+          },
+          style: 'cancel',
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
+  /*const onPressRemove = async (sensor) => {
     await deleteSensor(sensor["softId"]).then(response => {
       console.log(response);
       if (response) {
@@ -182,21 +238,31 @@ function SensorDetails({ route, navigation }) {
       navigation.navigate('Home', {user_data});
     });
     
-  };
+  };*/
+  const openInfo = () => {
+    console.log("open info is pressed");
+  }
   const handleScreenTouch = () => {
-    // Reset the selected data point state when screen is touched
     setSelectedDataPoint(null);
   };
   return (
     <View style={styles.container} >
       <View style={styles.roomInfo} onTouchEnd={handleScreenTouch}>
-        <Text style={styles.title}>{room.name}</Text>
-        <Text style={styles.detailsLabel}>Location : {sensor.locationInfo}</Text>
-      </View>
+        <View style={styles.rowContainer}>
+          <Text style={styles.title}>{room.name}</Text>
+          <Text style={styles.detailsLabel}>Location : {sensor.locationInfo}</Text>
+        </View>
+        <TouchableOpacity onPress={openInfo}>
+          <Image
+            style={styles.icon}
+            source={require("../assets/icons/info2.png")}
+          />
+        </TouchableOpacity>
+  </View>
       <ScrollView style={styles.scrollViewContainer} >
         {renderMultipleLineCharts(sensorData, measurementTypes)}
       </ScrollView>
-      <View style={styles.buttons} onTouchEnd={handleScreenTouch}>
+      {user_data.userType === 'admin' && <View style={styles.buttons} onTouchEnd={handleScreenTouch}>
         <Greenbutton
           title="Edit Device" // Pass the props as needed
           onPressFunction={() => onPressEdit(sensor)}
@@ -205,7 +271,7 @@ function SensorDetails({ route, navigation }) {
           title="Remove Device"
           onPressFunction={() => onPressRemove(sensor)}
         />
-      </View>
+      </View>}
     </View>
   );  
 }
@@ -221,6 +287,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#077187',
     marginBottom: 10,
     width: '100%',
+    flexDirection: 'row', // Set flex direction to row
+    justifyContent: 'space-between', // Align children to start and end of the view
+    alignItems: 'center',
+  },
+  rowContainer: {
+    flex: 1, // Allow the container to take up remaining space
   },
   container: {
     alignItems: 'center',
@@ -261,6 +333,12 @@ const styles = StyleSheet.create({
     height: 50,
     width: '100%',
     backgroundColor: '#fff',
+  },
+  icon: {
+    width: 30,
+    height: 30,
+    marginLeft: 5,
+    marginRight: 15,
   },
 });
 
