@@ -132,7 +132,7 @@ function SensorDetails({ route, navigation }) {
   
   const onPressEdit = (sensor) => {
     console.log(`onPressEditpressed`);
-    navigation3.navigate('Edit Device', { sensor, user_data });
+    navigation3.navigate('Edit Device', { sensor, user_data , room});
   };
 
 
@@ -165,14 +165,14 @@ function SensorDetails({ route, navigation }) {
         {renderMultipleLineCharts(sensorData, measurementTypes)}
       </ScrollView>
       <View style={styles.buttons}>
-      <Greenbutton
-        title="Edit Device" // Pass the props as needed
-        onPressFunction={() => onPressEdit(sensor)}
-      />
-      <Redbutton
-        title="Remove Device"
-        onPressFunction={() => onPressRemove(sensor)}
-      />
+        <Greenbutton
+          title="Edit Device" // Pass the props as needed
+          onPressFunction={() => onPressEdit(sensor)}
+        />
+        <Redbutton
+          title="Remove Device"
+          onPressFunction={() => onPressRemove(sensor)}
+        />
       </View>
     </View>
   );  
