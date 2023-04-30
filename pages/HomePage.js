@@ -347,19 +347,20 @@ function HomePage({ navigation, route }) {
         textAlign: "center",
       },
       roomsRows: {
-        padding: 10.5,
         alignItems: "stretch",
         justifyContent: "center",
         borderBottomWidth: 0.5,
+        margin:4,
       },
       rowsTextStyle: {
         color: "white",
-        fontWeight: "500",
+        fontWeight: "400",
+        fontSize: 20,
       },
       animatedView: {
         overflow: "hidden",
         borderRadius: 10,
-        paddingHorizontal: 8,
+        paddingHorizontal: 10,
         margin: 4,
       },
       roomRowContainer: {
@@ -367,8 +368,8 @@ function HomePage({ navigation, route }) {
         alignItems: 'center', // Center align items vertically
       },
       arrowImage: {
-        width: 16, // Set the width of the arrow image
-        height: 16, // Set the height of the arrow image
+        width: 22, // Set the width of the arrow image
+        height: 22, // Set the height of the arrow image
         marginRight: 8, // Add margin to the right of the arrow image for spacing
         // Add any other styles for the arrow image here
       },

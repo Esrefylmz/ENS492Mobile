@@ -1,5 +1,5 @@
 import {useState} from "react";
-import { View, StyleSheet, Text, StatusBar, TouchableOpacity, TextInput} from "react-native";
+import { View, StyleSheet, Image, Text, StatusBar, TouchableOpacity, TextInput} from "react-native";
 import Snackbar from 'react-native-snackbar';
 import Header from "../components/Header";
 import { colors } from "../components/Colors";
@@ -77,7 +77,7 @@ function LoginPage({ navigation }) {
       <StatusBar />
       <View style={styles.mainContainer}>
       <View style={styles.headerContainer}>
-          <Header headerText={"NEFEX"} />
+      <Image source={require('../assets/icons/nefex.png')} style={{ width: 150, height: 100 }}/>
       </View>
         <View style={styles.bodyContainer}>
           <TextInput style={styles.inputText} placeholder="Email" value={email} onChangeText={setEmail} />
@@ -115,13 +115,15 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     padding: 10,
+    borderColor: "#25995c",
+    borderWidth: 1,
   },
   bodyContainer: {
     height: 500,
     borderRadius: 15,
     margin: 10,
     flexDirection: "column",
-    backgroundColor: `${colors.primary}`,
+    backgroundColor: "#F8F8F8",
     alignItems: "stretch",
   },
   headerContainer: {
@@ -129,15 +131,15 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     margin: 10,
     flexDirection: "column",
-    backgroundColor: `${colors.primary}`,
-    alignItems: "stretch",
+    backgroundColor: "#F8F8F8",
+    alignItems: "center",
   },
   buttonPlace: {
     margin: 20,
     alignItems: 'center',
   },
   button: {
-    backgroundColor: 'white',
+    backgroundColor: "#25995c",
     borderRadius: 50,
     padding: 20,
     marginTop: 10,
@@ -146,7 +148,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
-    color: 'black',
+    color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',

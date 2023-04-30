@@ -1,8 +1,8 @@
 export const colors = {
-  primary: '#077187',
+  primary: '#25995c',
   background: '#F8F8F8',
-  homepage_animatedview: "#5dadbc",
-  appbar_text: "#1D6E7F",
+  homepage_animatedview: "#49B365",
+  appbar_text: "#49B365",
   error_msg: '#D62525',
   success_msg: '#49B365',
   chart_title: "#F09B28",
