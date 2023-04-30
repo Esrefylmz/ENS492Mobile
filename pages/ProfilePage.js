@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { colors } from "../components/Colors";
 
 const ProfileScreen = ({navigation, route}) => {
   const { user_data } = route.params;
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
       marginTop: 40, // Add margin top here
     },
     button: {
-      backgroundColor: '#077187',
+      backgroundColor: `${colors.primary}`,
       borderRadius: 50,
       padding: 20,
       marginVertical: 10,

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, PermissionsAndroid, StyleSheet, ScrollView } from 'react-native';
 import WifiManager from 'react-native-wifi-reborn';
+import { colors } from "../components/Colors";
 
 async function requestLocationPermission() {
   try {
@@ -101,7 +102,7 @@ export default WifiSearch;
 
 const homePageStyles = StyleSheet.create({
   currentWifiContainer: {
-    backgroundColor: '#077187',
+    backgroundColor: `${colors.primary}`,
     padding: 10,
   },
   currentWifiText: {
@@ -118,13 +119,13 @@ const homePageStyles = StyleSheet.create({
     lineHeight: 45,
     fontWeight: "bold",
     letterSpacing: 0.3,
-    color: "#077187",
+    color: `${colors.primary}`,
     marginTop: 10,
   },
   wifiText: {
     fontSize: 20,
     lineHeight: 30,
-    color: "#077187",
+    color: `${colors.primary}`,
     marginLeft: 10,
     maxWidth: 200,
     overflow: "hidden",
@@ -136,13 +137,13 @@ const homePageStyles = StyleSheet.create({
     backgroundColor: "white",
     justifyContent: "space-between",
     borderBottomWidth: 1,
-    borderBottomColor: "#D3D3D3",
+    borderBottomColor: `${colors.border_bottom}`,
     paddingVertical: 10,
     maxHeight: 60,
     minHeight: 60,
   },
   connectButton: {
-    backgroundColor: '#077187',
+    backgroundColor: `${colors.primary}`,
     borderRadius: 10,
     padding: 8,
     width: 70,
@@ -162,7 +163,7 @@ const homePageStyles = StyleSheet.create({
     alignItems: "center",
   },
   button: {
-    backgroundColor: '#077187',
+    backgroundColor: `${colors.primary}`,
     borderRadius: 50,
     padding: 20,
     marginVertical: 10,

@@ -13,6 +13,7 @@ import React, { useState, useEffect } from "react";
 import { getBuildingByCompanyId } from "../Backend/buildingServices";
 import { getRoomsByBuildingId } from "../Backend/roomService";
 import { useNavigation } from '@react-navigation/native';
+import { colors } from "../components/Colors";
 
 function HomePage({ navigation, route }) {
   React.useLayoutEffect(() => {
@@ -107,7 +108,7 @@ function HomePage({ navigation, route }) {
       <Animated.View
         style={[
           homePageStyles.animatedView,
-          { height, backgroundColor: "#5dadbc" },
+          { height, backgroundColor: `${colors.homepage_animatedview}` },
         ]}
       >
         {sortedRooms.map((item) => (
@@ -138,7 +139,7 @@ function HomePage({ navigation, route }) {
         title: `Home`,
         headerTintColor: 'white',
         headerStyle: {
-          backgroundColor: '#077187',
+          backgroundColor: `${colors.primary}`,
         },
       });
     }, [navigation2]);
@@ -243,7 +244,7 @@ function HomePage({ navigation, route }) {
         flex: 1,
         flexDirection: "column",
         alignItems: "stretch",
-        backgroundColor: "#F8F8F8",
+        backgroundColor: `${colors.background}`,
         padding: 10,
       },
       appBar: {
@@ -267,19 +268,19 @@ function HomePage({ navigation, route }) {
         lineHeight: 36,
         fontWeight: "bold",
         letterSpacing: 0.2,
-        color: "#1D6E7F",
+        color: `${colors.appbar_text}`,
       },  
       configureButton: {
         marginTop: 10,
         marginBottom: 10,
       },
       button: {
-        backgroundColor: "#077187",
+        backgroundColor: `${colors.primary}`,
         borderRadius: 16,
         padding: 10,
       },
       buttonText: {
-        color: "#fff",
+        color: "white",
         fontSize: 24,
         fontWeight: "bold",
         letterSpacing: 0.3,
@@ -295,7 +296,7 @@ function HomePage({ navigation, route }) {
         alignItems: "center",
         justifyContent: "space-between",
         borderWidth: 2.5,
-        borderColor: "#077187",
+        borderColor: `${colors.primary}`,
         borderRadius: 5,
         paddingLeft: 10,
         paddingRight: 10,
@@ -305,7 +306,7 @@ function HomePage({ navigation, route }) {
         flex: 1,
         fontSize: 16,
         height: 40,
-        color: "#000",
+        color: "black",
         paddingLeft: 5,
       },
       searchIcon: {
@@ -318,29 +319,29 @@ function HomePage({ navigation, route }) {
         justifyContent: "center",
       },
       buildingRow: {
-        backgroundColor: "#fff",
+        backgroundColor: "white",
         height: 60,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
         paddingHorizontal: 8,
         borderWidth: 2,
-        borderColor: "#077187",
+        borderColor: `${colors.primary}`,
         borderRadius: 10,
         elevation: 5, // for Android
-        shadowColor: '#000', // for iOS
+        shadowColor: 'black', // for iOS
         shadowOffset: { width: 0, height: 2 }, // for iOS
         shadowOpacity: 0.25, // for iOS
         shadowRadius: 4, 
       },
       buildingName: {
-        color: "#077187",
+        color: `${colors.primary}`,
         fontSize: 20,
         fontWeight: "500",
         textAlign: "center",
       },
       locationName: {
-        color: "#077187",
+        color: `${colors.primary}`,
         fontSize: 16,
         fontWeight: "400",
         textAlign: "center",
@@ -352,7 +353,7 @@ function HomePage({ navigation, route }) {
         borderBottomWidth: 0.5,
       },
       rowsTextStyle: {
-        color: "#fff",
+        color: "white",
         fontWeight: "500",
       },
       animatedView: {

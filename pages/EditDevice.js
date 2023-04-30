@@ -1,13 +1,14 @@
 import React, { useState , useEffect } from "react";
-import { View, TextInput, StyleSheet, Button } from "react-native";
+import { View, TextInput, StyleSheet } from "react-native";
 import { Picker } from '@react-native-picker/picker';
-import { getAllBuildingsByCompanyId, updateBuilding } from "../Backend/buildingServices";
+import { getAllBuildingsByCompanyId } from "../Backend/buildingServices";
 import { getRoomsByBuildingId } from "../Backend/roomService";
 import { updateSensor, createSensorDateLog } from "../Backend/sensorServices";
 import { useNavigation } from '@react-navigation/native';
 import Greenbutton from "../components/Greenbutton";
 import Redbutton from "../components/Redbutton";
 import Snackbar from 'react-native-snackbar';
+import { colors } from "../components/Colors";
 
 const EditDevice = ({ route , navigation }) => {
   const { sensor , user_data , room } = route.params;
@@ -26,7 +27,7 @@ const EditDevice = ({ route , navigation }) => {
       title: `Edit Device`,
       headerTintColor: 'white',
       headerStyle: {
-        backgroundColor: '#077187',
+        backgroundColor: `${colors.primary}`,
       },
       headerLeft: null,
     });
@@ -62,7 +63,7 @@ const EditDevice = ({ route , navigation }) => {
     if (room2 == null || deviceLocation == "" || building == null) {
       Snackbar.show({
         text: 'Please fill all required information',
-        backgroundColor: '#D62525',
+        backgroundColor: `${colors.error_msg}`,
         duration: Snackbar.LENGTH_SHORT,
       });
     } else {
@@ -98,21 +99,21 @@ const EditDevice = ({ route , navigation }) => {
         if (response) {
           Snackbar.show({
             text: 'Sensor updated successfully!',
-            backgroundColor: '#49B365',
+            backgroundColor: `${colors.success_msg}`,
             duration: Snackbar.LENGTH_SHORT,
           });
           const sensorLogResponse = await createSensorDateLog(sensorLogRequest);
         } else {
           Snackbar.show({
             text: 'Failed to update sensor!',
-            backgroundColor: '#D62525',
+            backgroundColor: `${colors.error_msg}`,
             duration: Snackbar.LENGTH_SHORT,
           });;
         }
       } catch (error) {
         Snackbar.show({
           text: 'Failed to fetch!',
-          backgroundColor: '#D62525',
+          backgroundColor: `${colors.error_msg}`,
           duration: Snackbar.LENGTH_SHORT,
         });
       } finally {
@@ -209,7 +210,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8
   },
   pickerContainer: {
-    borderColor: '#ccc',
+    borderColor: `${colors.border_bottom}`,
     borderWidth: 1,
     borderRadius: 4,
     overflow: 'hidden',
@@ -218,7 +219,7 @@ const styles = StyleSheet.create({
   picker: {
     height: 50,
     width: '100%',
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
   },
 });
 

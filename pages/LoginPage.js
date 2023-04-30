@@ -2,6 +2,8 @@ import {useState} from "react";
 import { View, StyleSheet, Text, StatusBar, TouchableOpacity, TextInput} from "react-native";
 import Snackbar from 'react-native-snackbar';
 import Header from "../components/Header";
+import { colors } from "../components/Colors";
+
 
 function LoginPage({ navigation }) {
   const [email, setEmail] = useState('');
@@ -12,7 +14,7 @@ function LoginPage({ navigation }) {
     if (email === '' || password === '') {
       Snackbar.show({
         text: 'Please enter your authentication information first!',
-        backgroundColor: '#D62525',
+        backgroundColor: `${colors.error_msg}`,
         duration: Snackbar.LENGTH_SHORT,
       });
     }
@@ -34,7 +36,7 @@ function LoginPage({ navigation }) {
             Snackbar.show({
               text: 'Pending status. Your registration is not approved yet!',
               duration: Snackbar.LENGTH_SHORT,
-              backgroundColor: '#D62525',
+              backgroundColor: `${colors.error_msg}`,
             });
           }
           else {
@@ -42,7 +44,7 @@ function LoginPage({ navigation }) {
             Snackbar.show({
               text: 'You have successfully logged in!',
               duration: Snackbar.LENGTH_SHORT,
-              backgroundColor: '#49B365',
+              backgroundColor: `${colors.success_msg}`,
             });
             navigation.navigate('Home', { user_data });
           }
@@ -51,7 +53,7 @@ function LoginPage({ navigation }) {
           Snackbar.show({
             text: 'You need to register first!',
             duration: Snackbar.LENGTH_SHORT,
-            backgroundColor: '#D62525',
+            backgroundColor: `${colors.error_msg}`,
           });
         }
       })
@@ -60,7 +62,7 @@ function LoginPage({ navigation }) {
         Snackbar.show({
           text: 'You need to register first!',
           duration: Snackbar.LENGTH_SHORT,
-          backgroundColor: '#D62525',
+          backgroundColor: `${colors.error_msg}`,
         });
       });
     }
@@ -100,13 +102,13 @@ const styles = StyleSheet.create({
   mainContainer: {
     justifyContent:"center",
     flex: 1,
-    backgroundColor: '#F8F8F8',
+    backgroundColor: `${colors.background}`,
     alignItems: "stretch",
   },
   inputText:{
-    backgroundColor: '#FFFFFF',
+    backgroundColor: 'white',
     borderRadius: 10,
-    color: '#000000',
+    color: 'black',
     fontSize: 16,
     marginBottom: 10,
     marginTop: 10,
@@ -119,7 +121,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     margin: 10,
     flexDirection: "column",
-    backgroundColor: "#077187",
+    backgroundColor: `${colors.primary}`,
     alignItems: "stretch",
   },
   headerContainer: {
@@ -127,7 +129,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     margin: 10,
     flexDirection: "column",
-    backgroundColor: "#077187",
+    backgroundColor: `${colors.primary}`,
     alignItems: "stretch",
   },
   buttonPlace: {

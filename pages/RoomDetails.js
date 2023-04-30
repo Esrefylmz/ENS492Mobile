@@ -11,6 +11,7 @@ import {
   import React, { useState, useEffect } from "react";
   import { getCompanySensorsByRoomId } from "../Backend/sensorServices";
   import { useNavigation } from '@react-navigation/native';
+  import { colors } from "../components/Colors";
   
   function HomePage({ navigation, route }) {
     const { room , user_data } = route.params;
@@ -50,7 +51,7 @@ import {
         title: `Room Detail - ${room.name}`,
         headerTintColor: 'white',
         headerStyle: {
-          backgroundColor: '#077187',
+          backgroundColor: `${colors.primary}`,
         },
       });
     }, [navigation2, room.name]);
@@ -143,7 +144,7 @@ import {
           flex: 1,
           flexDirection: "column",
           alignItems: "stretch",
-          backgroundColor: "#F8F8F8",
+          backgroundColor: `${colors.background}`,
           padding: 10,
         },
         appBar: {
@@ -167,19 +168,19 @@ import {
           lineHeight: 36,
           fontWeight: "bold",
           letterSpacing: 0.2,
-          color: "#1D6E7F",
+          color: `${colors.primary}`,
         },   
         configureButton: {
           marginTop: 10,
           marginBottom: 20,
         },
         button: {
-          backgroundColor: "#077187",
+          backgroundColor: `${colors.primary}`,
           borderRadius: 16,
           padding: 10,
         },
         buttonText: {
-          color: "#fff",
+          color: "white",
           fontSize: 24,
           fontWeight: "bold",
           letterSpacing: 0.3,
@@ -195,7 +196,7 @@ import {
           alignItems: "center",
           justifyContent: "space-between",
           borderWidth: 2.5,
-          borderColor: "#077187",
+          borderColor: `${colors.primary}`,
           borderRadius: 5,
           paddingLeft: 10,
           paddingRight: 10,
@@ -205,7 +206,7 @@ import {
           flex: 1,
           fontSize: 16,
           height: 40,
-          color: "#000",
+          color: "black",
           paddingLeft: 5,
         },
         searchIcon: {
@@ -218,25 +219,25 @@ import {
           justifyContent: "center",
         },
         buildingRow: {
-          backgroundColor: "#fff",
+          backgroundColor: "white",
           height: 60,
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
           paddingHorizontal: 8,
           borderWidth: 1,
-          borderColor: "#077187",
+          borderColor: `${colors.primary}`,
           borderRadius: 10,
           marginBottom: 15,
         },
         buildingName: {
-          color: "#077187",
+          color: `${colors.primary}`,
           fontSize: 20,
           fontWeight: "500",
           textAlign: "center",
         },
         locationName: {
-          color: "#077187",
+          color: `${colors.primary}`,
           fontSize: 16,
           fontWeight: "400",
           textAlign: "center",

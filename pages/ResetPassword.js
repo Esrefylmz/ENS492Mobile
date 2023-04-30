@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import { useNavigation } from '@react-navigation/native';
+import { colors } from "../components/Colors";
 
 const LocationSelectionScreen = () => {
 
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
       fontSize: 40,
       fontWeight: 'bold',
       marginBottom: 20,
-      color: '#077187',
+      color: `${colors.primary}`,
     },
     inputContainer: {
       marginBottom: 20,
@@ -54,11 +55,11 @@ const styles = StyleSheet.create({
       fontSize: 16,
       fontWeight: 'bold',
       marginBottom: 5,
-      color: '#077187',
+      color: `${colors.primary}`,
     },
     textInput: {
       borderWidth: 1,
-      borderColor: '#077187',
+      borderColor: `${colors.primary}`,
       borderRadius: 5,
       padding: 10,
       backgroundColor: 'white',
@@ -78,13 +79,13 @@ const styles = StyleSheet.create({
       justifyContent: 'flex-end',
     },    
     cancelButton: {
-      backgroundColor: '#B91c17',
+      backgroundColor: `${colors.cancel_button}`,
       padding: 10,
       borderRadius: 5,
       marginTop: 25,
     },
     doneButton: {
-      backgroundColor: '#077187',
+      backgroundColor: `${colors.primary}`,
       padding: 10,
       borderRadius: 5,
     },

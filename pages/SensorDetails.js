@@ -10,6 +10,7 @@ import Greenbutton from "../components/Greenbutton";
 import Redbutton from "../components/Redbutton";
 import { Alert } from 'react-native';
 import Snackbar from 'react-native-snackbar';
+import { colors } from "../components/Colors";
 
 function SensorDetails({ route, navigation }) {
   const { sensor , room, user_data } = route.params;
@@ -26,7 +27,7 @@ function SensorDetails({ route, navigation }) {
       title: `Sensor Detail`,
       headerTintColor: 'white',
       headerStyle: {
-        backgroundColor: '#077187',
+        backgroundColor: `${colors.primary}`,
       },
     });
   }, [navigation3]);
@@ -73,11 +74,11 @@ function SensorDetails({ route, navigation }) {
   };
   const renderLineChart = (data) => {
     const  chartConfig={
-      backgroundGradientFrom: "#F8F8F8",
+      backgroundGradientFrom: `${colors.background}`,
       backgroundGradientFromOpacity: 0.5,
-      backgroundGradientTo: "#F8F8F8",
+      backgroundGradientTo: `${colors.background}`,
       backgroundGradientToOpacity: 0.5,
-      color: (opacity = 1) => '#077187',
+      color: (opacity = 1) => `${colors.primary}`,
       strokeWidth: 5,
       useShadowColorFromDataset: true,
       decimalPlaces: data.some((item) => Math.abs(item.measurementValue) >= 100000) ? 0 : 2,
@@ -89,7 +90,7 @@ function SensorDetails({ route, navigation }) {
     return (
       <ScrollView horizontal showsHorizontalScrollIndicator={true}>
       {data.length === 0 ? (
-        <ActivityIndicator size="large" color="#000000" />
+        <ActivityIndicator size="large" color="black" />
       ) : (
         <View>
           <LineChart
@@ -98,7 +99,7 @@ function SensorDetails({ route, navigation }) {
               datasets: [
                 {
                   data: data.map((item) => item.measurementValue),
-                  color: (opacity = 1) => '#F09B28',
+                  color: (opacity = 1) => `${colors.chart_title}`,
                 },
               ],
             }}
@@ -113,16 +114,16 @@ function SensorDetails({ route, navigation }) {
                 position: 'absolute',
                 top: selectedDataPoint.y, // Position the box based on the selected data point
                 left: selectedDataPoint.x, // Position the box based on the selected data point
-                backgroundColor: '#ffffff',
+                backgroundColor: 'white',
                 padding: 10,
                 borderRadius: 5,
                 borderWidth: 1,
-                borderColor: '#077187',
+                borderColor: `${colors.primary}`,
               }}
             >
               <Text style={{
                 fontWeight: "bold",
-                color: '#077187',
+                color: `${colors.primary}`,
               }}>{`${selectedDataPoint.value}`}</Text>
             </View>
           )}
@@ -181,13 +182,13 @@ function SensorDetails({ route, navigation }) {
               if (response) {
                 Snackbar.show({
                   text: 'Sensor deleted successfully!',
-                  backgroundColor: '#49B365',
+                  backgroundColor: `${colors.success_msg}`,
                   duration: Snackbar.LENGTH_SHORT,
                 });
               } else {
                 Snackbar.show({
                   text: 'Failed to delete sensor!',
-                  backgroundColor: '#D62525',
+                  backgroundColor: `${colors.error_msg}`,
                   duration: Snackbar.LENGTH_SHORT,
                 });
               }
@@ -195,7 +196,7 @@ function SensorDetails({ route, navigation }) {
             } catch (error) {
               Snackbar.show({
                 text: 'Failed: ' + error.toString(),
-                backgroundColor: '#D62525',
+                backgroundColor: `${colors.error_msg}`,
                 duration: Snackbar.LENGTH_SHORT,
               });
             } finally {
@@ -209,7 +210,7 @@ function SensorDetails({ route, navigation }) {
           onPress: () => {
             Snackbar.show({
               text: 'Sensor deletion is cancelled!',
-              backgroundColor: '#D62525',
+              backgroundColor: `${colors.error_msg}`,
               duration: Snackbar.LENGTH_SHORT,
             });
           },
@@ -284,7 +285,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   roomInfo: {
-    backgroundColor: '#077187',
+    backgroundColor: `${colors.primary}`,
     marginBottom: 10,
     width: '100%',
     flexDirection: 'row', // Set flex direction to row
@@ -302,28 +303,28 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
     fontWeight: 'bold',
-    color: '#F09B28',
+    color: `${colors.chart_title}`,
   },
   title: {
     fontSize: 18,
-    color: '#fff',
+    color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
     paddingTop: 5,
   },
   detailsLabel: {
     fontSize: 14,
-    color: '#fff',
+    color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
-    borderBottomColor: "#077187",
+    borderBottomColor: `${colors.primary}`,
     paddingBottom: 8,
   },
   chartContainer: {
     marginTop: 20,
   },
   pickerContainer: {
-    borderColor: '#ccc',
+    borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 4,
     overflow: 'hidden',
@@ -332,7 +333,7 @@ const styles = StyleSheet.create({
   picker: {
     height: 50,
     width: '100%',
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
   },
   icon: {
     width: 30,

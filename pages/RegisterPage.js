@@ -2,7 +2,7 @@ import { View, StyleSheet, ScrollView, StatusBar, TextInput, Text, TouchableOpac
 import React, {useState, useEffect} from "react";
 import Snackbar from 'react-native-snackbar';
 import Header from "../components/Header";
-import TextButton from "../components/TextButton";
+import { colors } from "../components/Colors";
 import SignupInformation from "../components/SignupInformation";
 import { getCompanyByDomain } from "../Backend/companyServices";
 
@@ -25,7 +25,7 @@ function RegisterPage({ navigation }) {
       Snackbar.show({
         text: 'Please fill in all fields',
         duration: Snackbar.LENGTH_SHORT,
-        backgroundColor: '#D62525',
+        backgroundColor: `${colors.error_msg}`,
       });
       return;
     }
@@ -34,7 +34,7 @@ function RegisterPage({ navigation }) {
       Snackbar.show({
         text: 'Passwords do not match',
         duration: Snackbar.LENGTH_SHORT,
-        backgroundColor: '#D62525',
+        backgroundColor: `${colors.error_msg}`,
       });
       return;
     }
@@ -65,7 +65,7 @@ function RegisterPage({ navigation }) {
           Snackbar.show({
             text: 'Registration successful',
             duration: Snackbar.LENGTH_SHORT,
-            backgroundColor: '#49B365',
+            backgroundColor: `${colors.success_msg}`,
           });
           navigation.navigate('Login', { company })
         }
@@ -74,7 +74,7 @@ function RegisterPage({ navigation }) {
           Snackbar.show({
             text: 'Registration failed. Unable to register.',
             duration: Snackbar.LENGTH_SHORT,
-            backgroundColor: '#D62525',
+            backgroundColor: `${colors.error_msg}`,
           });
         }
       })
@@ -83,7 +83,7 @@ function RegisterPage({ navigation }) {
         Snackbar.show({
           text: 'Registration failed. Error occurred',
           duration: Snackbar.LENGTH_SHORT,
-          backgroundColor: '#D62525',
+          backgroundColor: `${colors.error_msg}`,
         });
       });
     }).catch((error) => {
@@ -91,7 +91,7 @@ function RegisterPage({ navigation }) {
       Snackbar.show({
         text: 'Registration failed. Error occurred',
         duration: Snackbar.LENGTH_SHORT,
-        backgroundColor: '#D62525',
+        backgroundColor: `${colors.error_msg}`,
       });
     });
   }
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     justifyContent: "center",
     flex: 1,
-    backgroundColor: "#F8F8F8",
+    backgroundColor: `${colors.background}`,
   },
   button: {
     backgroundColor: 'white',
@@ -163,15 +163,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
-    color: '#077187',
+    color: `${colors.primary}`,
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
   },
   inputText:{
-    backgroundColor: '#FFFFFF',
+    backgroundColor: 'white',
     borderRadius: 10,
-    color: '#077187',
+    color: `${colors.primary}`,
     fontSize: 16,
     marginBottom: 10,
     marginTop: 10,
@@ -184,14 +184,14 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     margin: 10,
     flexDirection: "column",
-    backgroundColor: "#077187",
+    backgroundColor: `${colors.primary}`,
     justifyContent: "center",
     alignItems: "stretch",
   },
   accountText: {
     textAlign: 'center',
     borderRadius: 10,
-    color: '#FFFFFF',
+    color: 'white',
     fontSize: 16,
     marginVertical: 20,
   }
