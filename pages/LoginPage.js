@@ -77,7 +77,7 @@ function LoginPage({ navigation }) {
       <StatusBar />
       <View style={styles.mainContainer}>
       <View style={styles.headerContainer}>
-      <Image source={require('../assets/icons/nefex.png')} style={{ width: 150, height: 100 }}/>
+      <Image source={require('../assets/icons/nefex.png')} style={{ width: 180, height: 100 }}/>
       </View>
         <View style={styles.bodyContainer}>
           <TextInput style={styles.inputText} placeholder="Email" value={email} onChangeText={setEmail} />

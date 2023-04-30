@@ -20,8 +20,8 @@ const signupInfoStyles = StyleSheet.create({
     alignItems: 'flex-start',
     margin: 5,
     borderWidth: 1,
-    borderColor: '#077187',
-    backgroundColor: '#077187',
+    borderColor: '#25995c',
+    backgroundColor: '#25995c',
     borderRadius: 10,
   },
   signupInfoText: {
@@ -32,11 +32,11 @@ const signupInfoStyles = StyleSheet.create({
     color: "white",
   },
   textContainer: {
-    borderColor: "#077187",
+    borderColor: "#25995c",
     borderWidth: 1,
     borderRadius: 10,
     padding: 6,
     width: '100%',
-    backgroundColor: "#077187",
+    backgroundColor: "#25995c",
   }
 });

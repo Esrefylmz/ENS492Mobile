@@ -174,11 +174,8 @@ function HomePage({ navigation, route }) {
       <StatusBar style="dark"/>
         <View style={homePageStyles.bodyContainer}>
           <View style={homePageStyles.appBar}>
+          <Text style={homePageStyles.appBarText}>MY BUILDINGS</Text>
             <View style={homePageStyles.iconPosition}>
-            <View>
-              <Text style={homePageStyles.appBarText}>MY BUILDINGS</Text>
-            </View>
-            <View style={{ width: 65 }}/>
               <TouchableOpacity onPress={goProfile}>
                 <Image
                   style={homePageStyles.icon}
@@ -226,7 +223,7 @@ function HomePage({ navigation, route }) {
                     )}
                   </View>
                 }
-              contentContainerStyle={{ paddingBottom: 100 }}  
+              contentContainerStyle={{ paddingBottom: 200 }}  
               />
             </View>
           </View>
@@ -271,8 +268,8 @@ function HomePage({ navigation, route }) {
         color: `${colors.appbar_text}`,
       },  
       configureButton: {
-        marginTop: 10,
-        marginBottom: 10,
+        marginTop: 15,
+        marginBottom: 15,
       },
       button: {
         backgroundColor: `${colors.primary}`,
@@ -295,7 +292,7 @@ function HomePage({ navigation, route }) {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        borderWidth: 2.5,
+        borderWidth: 1,
         borderColor: `${colors.primary}`,
         borderRadius: 5,
         paddingLeft: 10,
@@ -333,7 +330,17 @@ function HomePage({ navigation, route }) {
         shadowOffset: { width: 0, height: 2 }, // for iOS
         shadowOpacity: 0.25, // for iOS
         shadowRadius: 4, 
+        marginVertical: 5, // Add some vertical spacing
+        paddingVertical: 5, // Add some padding to the top and bottom
+        overflow: "hidden", // Clip any overflow content
+        fontFamily: "Helvetica", // Use a specific font family
+        fontWeight: "600", // Use a bold font weight
+        fontSize: 18, // Decrease the font size
+        textTransform: "uppercase", // Uppercase the text
+        letterSpacing: 1.5, // Add some letter spacing
+        elevation: 10, // Increase the elevation for Android
       },
+      
       buildingName: {
         color: `${colors.primary}`,
         fontSize: 20,

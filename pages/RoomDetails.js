@@ -82,10 +82,9 @@ import {
         <StatusBar style="dark"/>
           <View style={homePageStyles.bodyContainer}>
             <View style={homePageStyles.appBar}>
+            <Text style={homePageStyles.appBarText}>{room.name}</Text>         
               <View style={homePageStyles.iconPosition}>
-              <View>
-                <Text style={homePageStyles.appBarText}>{room.name}</Text>
-              </View>
+                
                 <TouchableOpacity>
                   <Image
                     style={homePageStyles.icon}

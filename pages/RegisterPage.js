@@ -1,5 +1,5 @@
-import { View, StyleSheet, ScrollView, StatusBar, TextInput, Text, TouchableOpacity, Alert} from "react-native";
-import React, {useState, useEffect} from "react";
+import { View, StyleSheet, ScrollView, StatusBar, TextInput, Text, TouchableOpacity} from "react-native";
+import React, {useState} from "react";
 import Snackbar from 'react-native-snackbar';
 import Header from "../components/Header";
 import { colors } from "../components/Colors";
