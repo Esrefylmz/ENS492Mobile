@@ -14,6 +14,7 @@ import SensorDetails from './pages/SensorDetails';
 import BuildingDetails from './pages/BuildingsDetail';
 import RoomDetails from './pages/RoomDetails';
 import EditDevice from './pages/EditDevice';
+import RoomGraph from './pages/RoomGraph';
 
 
 const Stack = createStackNavigator();
@@ -33,6 +34,7 @@ export default function App() {
         <Stack.Screen name="Building Detail" component={BuildingDetails} />
         <Stack.Screen name="Room Detail" component={RoomDetails} />
         <Stack.Screen name="Edit Device" component={EditDevice} />
+        <Stack.Screen name="Room Graph" component={RoomGraph} />
       </Stack.Navigator>
     </NavigationContainer>
   );

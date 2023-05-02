@@ -20,6 +20,10 @@ function SensorDetails({ route, navigation }) {
   const [measurementTypes, setMeasurementTypes] = useState([]);
   const [selectedMeasurementType, setSelectedMeasurementType] = useState(null);
 
+  const goRoomGraph = () => {
+    console.log("Device icon pressed");
+    navigation.navigate("Room Graph");
+  };
 
   const navigation3 = useNavigation();
   React.useLayoutEffect(() => {
@@ -273,6 +277,12 @@ function SensorDetails({ route, navigation }) {
           onPressFunction={() => onPressRemove(sensor)}
         />
       </View>}
+      <TouchableOpacity onPress={goRoomGraph}>
+          <Image
+            style={styles.icon}
+            source={require("../assets/icons/info2.png")}
+          />
+        </TouchableOpacity>
     </View>
   );  
 }
