@@ -4,10 +4,24 @@ import { WebView } from 'react-native-webview';
 import { colors } from "../components/Colors";
 import { loadMeasurementType } from '../Backend/measurementTypeServices';
 import { Picker } from '@react-native-picker/picker';
+import { useNavigation } from '@react-navigation/native';
+
 export default function App() {
     const [measurementTypes, setMeasurementTypes] = useState([]);
     const [selectedMeasurement, setSelectedMeasurement] = useState(null);
-  
+
+    const navigation3 = useNavigation();
+    React.useLayoutEffect(() => {
+      navigation3.setOptions({
+        title: `Room Graph`,
+        headerTintColor: 'white',
+        headerStyle: {
+          backgroundColor: `${colors.primary}`,
+        },
+      });
+    }, [navigation3]);
+
+
     useEffect(() => {
       loadMeasurementType()
         .then((data) => {
