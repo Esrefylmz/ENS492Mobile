@@ -1,4 +1,4 @@
-const baseUrl = 'http://10.0.2.2:5063/api/MeasurementType';
+const baseUrl = 'http://uskumru.sabanciuniv.edu:5063/api/MeasurementType';
 
 
 export const loadMeasurementType = () => {

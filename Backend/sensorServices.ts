@@ -1,5 +1,5 @@
 export const getCompanySensorsByCompanyId = (companyId: any) => {
-    const url =`http://10.0.2.2:5063/api/CompanySensors/GetCompanySensorByCompanyId?Id=${companyId}`;
+    const url =`http://uskumru.sabanciuniv.edu:5063/api/CompanySensors/GetCompanySensorByCompanyId?Id=${companyId}`;
     
     return fetch(url).then((response) => response.json()).catch(function(error){
         console.log('getSensorError' + error.message);
@@ -9,7 +9,7 @@ export const getCompanySensorsByCompanyId = (companyId: any) => {
 
 
 export const getCompanySensorsByRoomId = (roomId: any) => {
-    const url =`http://10.0.2.2:5063/api/CompanySensors/GetCompanySensorByRoomId?roomId=${roomId}`;
+    const url =`http://uskumru.sabanciuniv.edu:5063/api/CompanySensors/GetCompanySensorByRoomId?roomId=${roomId}`;
     
     return fetch(url).then((response) => response.json()).catch(function(error){
         console.log('getSensorError' + error.message);
@@ -18,7 +18,7 @@ export const getCompanySensorsByRoomId = (roomId: any) => {
 }
 
 export const GetDataByMacId = (macID: any) => {
-    const url =`http://10.0.2.2:5063/api/MonitorData/GetDataByMacId?macID=${macID}`;
+    const url =`http://uskumru.sabanciuniv.edu:5063/api/MonitorData/GetDataByMacId?macID=${macID}`;
     console.log(url);
     return fetch(url).then((response) => response.json()).catch(function(error){
         console.log('getSensorDataError' + error.message);
@@ -27,7 +27,7 @@ export const GetDataByMacId = (macID: any) => {
 }
 
 export const updateSensor = (sensor: any) =>{
-    const url =`http://10.0.2.2:5063/api/CompanySensors/PutCompanySensor`;
+    const url =`http://uskumru.sabanciuniv.edu:5063/api/CompanySensors/PutCompanySensor`;
     return fetch(url, {
         method: "PUT",
         headers: {
@@ -49,7 +49,7 @@ export const updateSensor = (sensor: any) =>{
 
 
 export const deleteSensor = (id: any) => {
-    const url =`http://10.0.2.2:5063/api/CompanySensors/DeleteCompanySensorsById?id=${id}`;
+    const url =`http://uskumru.sabanciuniv.edu:5063/api/CompanySensors/DeleteCompanySensorsById?id=${id}`;
     return fetch(url, {
         method: "DELETE",
     }).then((response) => response.json()).catch(function(error){
@@ -59,7 +59,7 @@ export const deleteSensor = (id: any) => {
 }
 
 export const createSensorDateLog = (sensorDateLog: any) => {
-    const url =`http://10.0.2.2:5063/api/SensorDateLog/PostSensorDateLog`;
+    const url =`http://uskumru.sabanciuniv.edu:5063/api/SensorDateLog/PostSensorDateLog`;
     return fetch(url, {
         method: "POST",
         headers: {

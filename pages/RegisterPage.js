@@ -46,7 +46,7 @@ function RegisterPage({ navigation }) {
       console.log('Companies', companies);
       console.log('COMPANYID', companies["companyId"]); // Access the first company's companyId
 
-      fetch('http://10.0.2.2:5063/api/CompanyUserAuth/RegisterCompanyUser', {
+      fetch('http://uskumru.sabanciuniv.edu:5063/api/CompanyUserAuth/RegisterCompanyUser', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -19,7 +19,7 @@ function LoginPage({ navigation }) {
       });
     }
     else{
-      fetch('http://10.0.2.2:5063/api/CompanyUserAuth/LoginCompanyUser', {
+      fetch('http://uskumru.sabanciuniv.edu:5063/api/CompanyUserAuth/LoginCompanyUser', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

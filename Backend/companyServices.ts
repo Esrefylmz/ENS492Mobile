@@ -1,4 +1,4 @@
-const baseUrl = 'http://10.0.2.2:5063/api/CompanyContoller';
+const baseUrl = 'http://uskumru.sabanciuniv.edu:5063/api/CompanyContoller';
 
 export const loadCompanies = () => {
     return fetch(baseUrl).then((response)=>response.json()).catch(function(error){
@@ -8,7 +8,7 @@ export const loadCompanies = () => {
 }
 
 export const getCompanyByDomain = (domain: any) => {
-    const url = `http://10.0.2.2:5063/api/CompanyContoller/GetCompanyByDomain?domain=${domain}`;
+    const url = `http://uskumru.sabanciuniv.edu:5063/api/CompanyContoller/GetCompanyByDomain?domain=${domain}`;
 
     return fetch(url).then((response) => response.json()).catch(function(error){
         console.log('getBuilding error' + error.message);

@@ -1,4 +1,4 @@
-const baseUrl = 'http://10.0.2.2:5063/api/CRUD';
+const baseUrl = 'http://uskumru.sabanciuniv.edu:5063/api/CRUD';
 
 export const loadBuildings = () => {
     return fetch(baseUrl).then((response)=>response.json()).catch(function(error){
@@ -8,7 +8,7 @@ export const loadBuildings = () => {
 }
 
 export const getAllBuildingsByCompanyId = (id: any) => {
-    const url = `http://10.0.2.2:5063/api/CRUD/GetBuildingByCompanyId?Id=${id}`;
+    const url = `http://uskumru.sabanciuniv.edu:5063/api/CRUD/GetBuildingByCompanyId?Id=${id}`;
     return fetch(url).then((response)=>response.json()).catch(function(error){
         console.log('getAllBuildingsByCompanyId error' + error.message);
         throw error;
@@ -17,7 +17,7 @@ export const getAllBuildingsByCompanyId = (id: any) => {
 
 
 export const getBuildingByCompanyId = (id: any) => {
-    return fetch(`http://10.0.2.2:5063/api/CRUD/GetBuildingByCompanyId?Id=${id}`).then((response) => response.json()).catch(function(error){
+    return fetch(`http://uskumru.sabanciuniv.edu:5063/api/CRUD/GetBuildingByCompanyId?Id=${id}`).then((response) => response.json()).catch(function(error){
         console.log('GetBuildingByCompanyId error' + error.message);
         throw error;
     });
