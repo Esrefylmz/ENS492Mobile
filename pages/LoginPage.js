@@ -51,7 +51,7 @@ function LoginPage({ navigation }) {
         } else {
           console.log("data: ", user_data)
           Snackbar.show({
-            text: 'You need to register first!',
+            text: 'Server does not response!',
             duration: Snackbar.LENGTH_SHORT,
             backgroundColor: `${colors.error_msg}`,
           });
@@ -60,7 +60,7 @@ function LoginPage({ navigation }) {
       .catch(error => {
         console.log('Error:', error);
         Snackbar.show({
-          text: 'You need to register first!',
+          text: 'Wrong username or password!',
           duration: Snackbar.LENGTH_SHORT,
           backgroundColor: `${colors.error_msg}`,
         });

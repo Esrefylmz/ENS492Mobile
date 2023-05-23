@@ -18,7 +18,7 @@ const ProfileScreen = ({navigation, route}) => {
     <View style={styles.container}>
         <Text style={styles.titleText}>{user_data["username"]}</Text>
       <TouchableOpacity style={styles.button} onPress={handleResetPassword}>
-        <Text style={styles.buttonText} onPress={() => navigation.navigate("Reset Password")}>Reset Password</Text>
+        <Text style={styles.buttonText} onPress={() => navigation.navigate("Reset Password", { user_data})}>Reset Password</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={goLogin}>
         <Text style={styles.buttonText}>Logout</Text>
