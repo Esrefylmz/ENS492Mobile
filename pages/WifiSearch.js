@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, PermissionsAndroid, StyleSheet, ScrollView } from 'react-native';
 import WifiManager from 'react-native-wifi-reborn';
+import Snackbar from 'react-native-snackbar';
 import { colors } from "../components/Colors";
 
 async function requestLocationPermission() {
@@ -32,6 +33,7 @@ async function requestLocationPermission() {
 function WifiSearch({navigation}) {
   const [networks, setNetworks] = useState([]);
   const [currentWifi, setCurrentWifi] = useState(null);
+  const [IPAdress, setIPAdress] = useState(null);
 
   useEffect(() => {
     WifiManager.getCurrentWifiSSID()
@@ -39,27 +41,90 @@ function WifiSearch({navigation}) {
       .catch(error => console.log('Error getting current wifi:', error));
   }, []);
 
+  useEffect(() => {
+    WifiManager.getIP()
+      .then(IP => setIPAdress(IP))
+      .catch(error => console.log('Error getting IP Adress:', error));
+
+  }, []);
+
   const scanNetworks = async () => {
     const hasLocationPermission = await requestLocationPermission();
     if (hasLocationPermission) {
       try {
-        const data = await WifiManager.loadWifiList();
+        const data = await WifiManager.loadWifiList()
+        //const espNetworks = data.filter(network => network.SSID.includes('NEFEX'));
         setNetworks(data);
       } catch (error) {
         console.log('Error scanning networks:', error);
+        Snackbar.show({
+          
+          text: error.toString(),
+  
+        });
       }
     }
   };
 
+  async function sendWifiCredentials() {
+    // Assuming ESP8266 is set up as a server and accepts POST requests at /setup
+    const url = 'http://192.168.4.1/';
+  
+    // Your parameters
+    const data = {
+      ssid: "SU-IoT",
+      password: "",
+      brokerIP: "uskumru.sabanciuniv.edu"
+    };
+  
+    // Options for the fetch function
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    };
+  
+    try {
+      const response = await fetch(url, options);
+      const json = await response.json();
+  
+      // Do something with the response
+      console.log(json);
+      Snackbar.show({
+          
+        text: json.toString(),
+
+      });
+    } catch (error) {
+      Snackbar.show({
+          
+        text: error.toString(),
+
+      });
+    }
+  }
+  
+  
+
   async function connectToWifi(ssid) {
     try {
+      
       const isConnected = await WifiManager.connectToProtectedSSID(ssid, '', false);
+      
       console.log('Connected to network:', ssid);
+      await sendWifiCredentials();
       navigation.navigate('New Device');
       console.log('Going to New Device page');
   
     } catch (error) {
       console.log('Error connecting to network:', ssid, error);
+      Snackbar.show({
+          
+        text: error.toString(),
+
+      });
     }
   }
   // TO DO: Do not display other wifis around
@@ -68,6 +133,7 @@ function WifiSearch({navigation}) {
       {currentWifi ? (
         <View style={homePageStyles.currentWifiContainer}>
           <Text style={homePageStyles.currentWifiText}>Currently connected: {currentWifi}</Text>
+          <Text style={homePageStyles.currentWifiText}>IP Adress: {IPAdress}</Text>
         </View>
       ) : (
         <View style={homePageStyles.currentWifiContainer}>
@@ -88,6 +154,11 @@ function WifiSearch({navigation}) {
         ))}
           </ScrollView>
       </View>
+
+      <View >
+        <Text style={homePageStyles.bodyText}>Denemee234</Text>
+      </View>
+
       
       <View style={homePageStyles.buttonContainer}>
         <TouchableOpacity style={homePageStyles.button} onPress={scanNetworks}>

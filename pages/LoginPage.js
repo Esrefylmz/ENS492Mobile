@@ -60,9 +60,10 @@ function LoginPage({ navigation }) {
       .catch(error => {
         console.log('Error:', error);
         Snackbar.show({
-          text: 'Wrong username or password!',
-          duration: Snackbar.LENGTH_SHORT,
-          backgroundColor: `${colors.error_msg}`,
+          
+          text: error.toString(),
+          //duration: Snackbar.LENGTH_SHORT,
+          //backgroundColor: `${colors.error_msg}`,
         });
       });
     }
